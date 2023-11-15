@@ -1,0 +1,10 @@
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.exe.config
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.exe
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.pdb
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csprojAssemblyReference.cache
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.Form1.resources
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.Properties.Resources.resources
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csproj.GenerateResource.cache
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csproj.CoreCompileInputs.cache
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.exe
+C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.pdb
