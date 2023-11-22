@@ -18,7 +18,23 @@ namespace RFID_Lab2_Team5
             lblMessage.Text = "";
         }
 
+        private void btnReadData_Click(object sender, EventArgs e)
+        {
+            // reading RFID card value from user selection
+            UInt16 sectorID = (ushort)combSector.SelectedIndex;
+            UInt16 blockID = (ushort)combBlock.SelectedIndex;
+            String keyAB = combKeyab.GetItemText(combKeyab.SelectedItem);
+            String key = txtLoadkey.Text;
 
+            txtIdenity.Text = read_rfid_value(sectorID, blockID, keyAB, key);
+
+            return;
+        }
+
+        private void btnWriteData_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnCreateCard_Issue_Click(object sender, EventArgs e)
         {
@@ -116,6 +132,77 @@ namespace RFID_Lab2_Team5
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        unsafe private String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
+        {
+            UInt32 uiLength, uiRead, uiResult, uiWritten;
+            byte[] ReadBuffer = new byte[0x40];
+            byte[] WriteBuffer = build_cmd(sector, block, keyAB, key);
+
+            byte[] sResponse = null;
+            sResponse = new byte[21];
+
+            EasyPODClass.VID = 0xe6a;
+            EasyPODClass.PID = 0x317;
+            Index = 1;
+            uiLength = 64;
+
+            String resultStr = "";
+
+            fixed (MW_EasyPOD* pPOD = &EasyPOD)
+            {
+
+                dwResult = PODfuncs.ConnectPOD(pPOD, Index);
+
+                if ((dwResult != 0))
+                {
+                    MessageBox.Show("Not connected yet");
+                }
+                else
+                {
+                    EasyPODClass.ReadTimeOut = 200;
+                    EasyPODClass.WriteTimeOut = 200;
+
+                    dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, 4, &uiWritten);    //Send a request command to reader
+                    uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
+
+                    // decode result to HEX format
+                    resultStr = BitConverter.ToString(ReadBuffer, 4, (Int32)uiRead).Replace("-", " ");
+                }
+                dwResult = PODfuncs.ClearPODBuffer(pPOD);
+                dwResult = PODfuncs.DisconnectPOD(pPOD);
+            }
+
+            return resultStr;
+        }
+        private byte[] build_cmd(UInt16 sector, UInt16 block, String keyAB, String key)
+        {
+            // convert hex string to byte array
+            byte[] key_bytes = new byte[key.Length / 2];
+
+            for (int i = 0; i < key.Length; i += 2)
+                key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
+
+            // build up command
+            byte[] WriteBuffer = new byte[] {
+                0x2,  // STX
+                0xA,  // LEN
+                0x15, // CMD
+                (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
+                key_bytes[0], // KEY most left
+                key_bytes[1], // KEY 
+                key_bytes[2], // KEY 
+                key_bytes[3], // KEY 
+                key_bytes[4], // KEY 
+                key_bytes[5], // KEY most right
+                (byte)sector, // Sector
+                (byte)block   // Block
+            };
+
+            //Console.WriteLine(BitConverter.ToString(WriteBuffer));
+
+            return WriteBuffer;
         }
     }
 }

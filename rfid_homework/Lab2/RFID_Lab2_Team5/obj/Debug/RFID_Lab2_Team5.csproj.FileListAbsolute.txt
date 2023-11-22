@@ -8,3 +8,13 @@ C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_
 C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csproj.CoreCompileInputs.cache
 C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.exe
 C:\Users\marsh\source\repos\RFID_Lab2_Team5\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.pdb
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.exe.config
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.exe
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\bin\Debug\RFID_Lab2_Team5.pdb
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csprojAssemblyReference.cache
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.Form1.resources
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.Properties.Resources.resources
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csproj.GenerateResource.cache
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.csproj.CoreCompileInputs.cache
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.exe
+C:\git\NCCU\rfid_homework\Lab2\RFID_Lab2_Team5\obj\Debug\RFID_Lab2_Team5.pdb
