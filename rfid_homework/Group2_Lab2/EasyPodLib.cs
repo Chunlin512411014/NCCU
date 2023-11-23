@@ -8,36 +8,10 @@ using System.Runtime.InteropServices;
 public class EasyPodLib
 {
     MW_EasyPOD EasyPOD;
-   
-    private byte[] build_cmd(UInt16 sector, UInt16 block, String keyAB, String key)
+    public void write_card(AddressStruct parameter, object value)
     {
-        // convert hex string to byte array
-        byte[] key_bytes = new byte[key.Length / 2];
 
-        for (int i = 0; i < key.Length; i += 2)
-            key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
-
-        // build up command
-        byte[] WriteBuffer = new byte[] {
-                0x2,  // STX
-                0xA,  // LEN
-                0x15, // CMD
-                (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
-                key_bytes[0], // KEY most left
-                key_bytes[1], // KEY 
-                key_bytes[2], // KEY 
-                key_bytes[3], // KEY 
-                key_bytes[4], // KEY 
-                key_bytes[5], // KEY most right
-                (byte)sector, // Sector
-                (byte)block   // Block
-            };
-
-        //Console.WriteLine(BitConverter.ToString(WriteBuffer));
-
-        return WriteBuffer;
     }
-
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
     {
         UInt32 dwResult, Index;
@@ -82,15 +56,54 @@ public class EasyPodLib
 
         return resultStr;
     }
-}
+    private byte[] build_cmd(UInt16 sector, UInt16 block, String keyAB, String key)
+    {
+        // convert hex string to byte array
+        byte[] key_bytes = new byte[key.Length / 2];
 
-public struct RFIDParameter
+        for (int i = 0; i < key.Length; i += 2)
+            key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
+
+        // build up command
+        byte[] WriteBuffer = new byte[] {
+                0x2,  // STX
+                0xA,  // LEN
+                0x15, // CMD
+                (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
+                key_bytes[0], // KEY most left
+                key_bytes[1], // KEY 
+                key_bytes[2], // KEY 
+                key_bytes[3], // KEY 
+                key_bytes[4], // KEY 
+                key_bytes[5], // KEY most right
+                (byte)sector, // Sector
+                (byte)block   // Block
+            };
+
+        //Console.WriteLine(BitConverter.ToString(WriteBuffer));
+
+        return WriteBuffer;
+    }
+
+}
+public class MemberRfid
+{
+    public AddressStruct AddressNo;
+    public AddressStruct AddressName;
+    public AddressStruct AddressApplyDate;
+    public AddressStruct AddressCredit;
+    public string ValueNo;
+    public string ValueName;
+    public string ValueApplyDate;
+    public string ValueCredit;
+}
+public struct AddressStruct
 {
     public UInt16 Sector;
     public UInt16 Block;
     public String KeyAB;
     public String Key;
-    public RFIDParameter(UInt16 Sector, UInt16 Block, String KeyAB, String Key)
+    public AddressStruct(UInt16 Sector, UInt16 Block, String KeyAB, String Key)
     {
         this.Sector = Sector;
         this.Block = Block;

@@ -406,6 +406,7 @@
             // 
             this.txtMemberCredit_Inquery.Location = new System.Drawing.Point(141, 183);
             this.txtMemberCredit_Inquery.Name = "txtMemberCredit_Inquery";
+            this.txtMemberCredit_Inquery.ReadOnly = true;
             this.txtMemberCredit_Inquery.Size = new System.Drawing.Size(134, 36);
             this.txtMemberCredit_Inquery.TabIndex = 7;
             // 
@@ -413,6 +414,7 @@
             // 
             this.txtMemberApplyDate_Inquery.Location = new System.Drawing.Point(141, 133);
             this.txtMemberApplyDate_Inquery.Name = "txtMemberApplyDate_Inquery";
+            this.txtMemberApplyDate_Inquery.ReadOnly = true;
             this.txtMemberApplyDate_Inquery.Size = new System.Drawing.Size(134, 36);
             this.txtMemberApplyDate_Inquery.TabIndex = 6;
             // 
@@ -420,6 +422,7 @@
             // 
             this.txtMemberName_Inquery.Location = new System.Drawing.Point(141, 81);
             this.txtMemberName_Inquery.Name = "txtMemberName_Inquery";
+            this.txtMemberName_Inquery.ReadOnly = true;
             this.txtMemberName_Inquery.Size = new System.Drawing.Size(134, 36);
             this.txtMemberName_Inquery.TabIndex = 5;
             // 
@@ -427,6 +430,7 @@
             // 
             this.txtMemberNo_Inquery.Location = new System.Drawing.Point(141, 31);
             this.txtMemberNo_Inquery.Name = "txtMemberNo_Inquery";
+            this.txtMemberNo_Inquery.ReadOnly = true;
             this.txtMemberNo_Inquery.Size = new System.Drawing.Size(136, 36);
             this.txtMemberNo_Inquery.TabIndex = 4;
             // 
