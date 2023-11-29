@@ -8,7 +8,7 @@ namespace WindowsFormsApplication6
     {
         EasyPodLib easyPodLib = new EasyPodLib();
         UInt16 LOADKEY_LENGTH  = 12;
-        static string key = "FFFFFFFFFFFF";
+        static string key = "FFFFFFFFFFFF"; 
         
         //定義會員資料的位置
         MemberRfid memberRfid = new MemberRfid
