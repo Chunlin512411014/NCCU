@@ -13,10 +13,10 @@ namespace WindowsFormsApplication6
         //定義會員資料的位置
         MemberRfid memberRfid = new MemberRfid
         {
-            AddressNo = new AddressStruct(1, 1, "A", key),
-            AddressName = new AddressStruct(1, 2, "A", key),
-            AddressApplyDate = new AddressStruct(1, 3, "A", key),
-            AddressCredit = new AddressStruct(1, 4, "A", key),
+            AddressNo = new AddressStruct(0, 1, "A", key),
+            AddressName = new AddressStruct(0, 2, "A", key),
+            AddressApplyDate = new AddressStruct(0, 3, "A", key),
+            AddressCredit = new AddressStruct(0, 4, "A", key),
         };
         public Form1()
         {

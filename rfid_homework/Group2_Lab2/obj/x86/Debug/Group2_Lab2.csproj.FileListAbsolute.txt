@@ -1,0 +1,11 @@
+C:\git\NCCU\rfid_homework\Group2_Lab2\bin\Debug\WindowsFormsApplication6.exe.config
+C:\git\NCCU\rfid_homework\Group2_Lab2\bin\Debug\WindowsFormsApplication6.exe
+C:\git\NCCU\rfid_homework\Group2_Lab2\bin\Debug\WindowsFormsApplication6.pdb
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\Group2_Lab2.csproj.AssemblyReference.cache
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\Group2_Lab2.csproj.SuggestedBindingRedirects.cache
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\WindowsFormsApplication6.Form1.resources
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\WindowsFormsApplication6.Properties.Resources.resources
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\Group2_Lab2.csproj.GenerateResource.cache
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\Group2_Lab2.csproj.CoreCompileInputs.cache
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\WindowsFormsApplication6.exe
+C:\git\NCCU\rfid_homework\Group2_Lab2\obj\x86\Debug\WindowsFormsApplication6.pdb
