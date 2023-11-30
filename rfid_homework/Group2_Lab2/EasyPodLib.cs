@@ -7,9 +7,31 @@ using System.Linq;
 public class EasyPodLib
 {
     MW_EasyPOD EasyPOD;
-    public void write_card(AddressStruct parameter, object value)
-    {
+    AddressStruct AddressNo = new AddressStruct(0, 1, "A");
+    AddressStruct AddressName = new AddressStruct(0, 2, "A");
+    AddressStruct AddressApplyDate = new AddressStruct(0, 3, "A");
+    AddressStruct AddressCredit = new AddressStruct(0, 4, "A");
 
+    public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
+    {
+        var s1 = write_rfid_value(0, 1, "A", loadKey, no);
+        var s2 = write_rfid_value(0, 2, "A", loadKey, name);
+        var s3 = write_rfid_value(0, 3, "A", loadKey, applydate.ToShortDateString());
+        var s4 = write_rfid_value(0, 4, "A", loadKey, credit.ToString());
+    }
+    public void Clear_Card(string loadKey)
+    {
+        var s1 = write_rfid_value(0, 1, "A", loadKey, "");
+        var s2 = write_rfid_value(0, 2, "A", loadKey, "");
+        var s3 = write_rfid_value(0, 3, "A", loadKey, "");
+        var s4 = write_rfid_value(0, 4, "A", loadKey, "");
+    }
+    public void Read_Card(string loadKey)
+    {
+        var s1 = read_rfid_value(0, 1, "A", loadKey);
+        var s2 = read_rfid_value(0, 2, "A", loadKey);
+        var s3 = read_rfid_value(0, 3, "A", loadKey);
+        var s4 = read_rfid_value(0, 4, "A", loadKey);
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
     {
@@ -85,8 +107,6 @@ public class EasyPodLib
                 EasyPOD.ReadTimeOut = 200;
                 EasyPOD.WriteTimeOut = 200;
 
-                
-
                 //dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, 4, &uiWritten);    //Send a request command to reader
                 dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, Convert.ToUInt32(WriteBuffer.Length), &uiWritten);    //Send a request command to reader
                 uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
@@ -110,22 +130,20 @@ public class EasyPodLib
 
         // build up command
         byte[] WriteBuffer = new byte[] {
-                0x2,  // STX
-                0xA,  // LEN
-                0x15, // CMD
-                (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
-                key_bytes[0], // KEY most left
-                key_bytes[1], // KEY 
-                key_bytes[2], // KEY 
-                key_bytes[3], // KEY 
-                key_bytes[4], // KEY 
-                key_bytes[5], // KEY most right
-                (byte)sector, // Sector
-                (byte)block   // Block
-            };
-
-        //Console.WriteLine(BitConverter.ToString(WriteBuffer));
-
+            0x2,  // STX
+            0xA,  // LEN
+            0x15, // CMD
+            (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
+            key_bytes[0], // KEY most left
+            key_bytes[1], // KEY 
+            key_bytes[2], // KEY 
+            key_bytes[3], // KEY 
+            key_bytes[4], // KEY 
+            key_bytes[5], // KEY most right
+            (byte)sector, // Sector
+            (byte)block   // Block
+        };
+        Console.WriteLine(BitConverter.ToString(WriteBuffer));
         return WriteBuffer;
     }
     private byte[] build_write_cmd(UInt16 sector, UInt16 block, String keyAB, String key, string val)
@@ -138,24 +156,24 @@ public class EasyPodLib
 
         // build up command
         byte[] WriteBuffer = new byte[] {
-         0x2,  // STX
-         0x1A,  // LEN
-         0x16, // CMD
-         (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
-         key_bytes[0], // KEY most left
-         key_bytes[2], // KEY 
-         key_bytes[1], // KEY 
-         key_bytes[3], // KEY 
-         key_bytes[4], // KEY 
-         key_bytes[5], // KEY most right
-         (byte)sector, // Sector
-         (byte)block   // Block
-     };
+            0x2,  // STX
+            0x1A,  // LEN
+            0x16, // CMD
+            (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
+            key_bytes[0], // KEY most left
+            key_bytes[2], // KEY 
+            key_bytes[1], // KEY 
+            key_bytes[3], // KEY 
+            key_bytes[4], // KEY 
+            key_bytes[5], // KEY most right
+            (byte)sector, // Sector
+            (byte)block   // Block
+        };
         var result = WriteBuffer.Concat(ConvertStringToByteArray(val)).ToArray();
-        Console.WriteLine(BitConverter.ToString(result));
         Console.WriteLine(BitConverter.ToString(WriteBuffer));
+        Console.WriteLine(BitConverter.ToString(result));
+
         return result;
-        return WriteBuffer;
     }
     static byte[] ConvertStringToByteArray(string val)
     {
@@ -189,13 +207,11 @@ public struct AddressStruct
     public UInt16 Sector;
     public UInt16 Block;
     public String KeyAB;
-    public String Key;
-    public AddressStruct(UInt16 Sector, UInt16 Block, String KeyAB, String Key)
+    public AddressStruct(UInt16 Sector, UInt16 Block, String KeyAB)
     {
         this.Sector = Sector;
         this.Block = Block;
         this.KeyAB = KeyAB;
-        this.Key = Key;
     }
 }
 

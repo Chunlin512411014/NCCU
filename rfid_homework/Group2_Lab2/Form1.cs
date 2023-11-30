@@ -6,24 +6,28 @@ namespace WindowsFormsApplication6
 {
     public partial class Form1 : Form
     {
-        EasyPodLib easyPodLib = new EasyPodLib();
+        
         UInt16 LOADKEY_LENGTH  = 12;
         static string key = "FFFFFFFFFFFF";
         
         //定義會員資料的位置
         MemberRfid memberRfid = new MemberRfid
         {
-            AddressNo = new AddressStruct(0, 1, "A", key),
-            AddressName = new AddressStruct(0, 2, "A", key),
-            AddressApplyDate = new AddressStruct(0, 3, "A", key),
-            AddressCredit = new AddressStruct(0, 4, "A", key),
+            AddressNo = new AddressStruct(0, 1, "A"),
+            AddressName = new AddressStruct(0, 2, "A"),
+            AddressApplyDate = new AddressStruct(0, 3, "A"),
+            AddressCredit = new AddressStruct(0, 4, "A"),
         };
         public Form1()
         {
             InitializeComponent();
-            txtLoadkey.Text = key;
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            txtLoadkey.Text = key;
+            txtMemberApplyDate_Issue.Text = DateTime.Now.ToShortDateString();
 
+        }
         private void btnReaddata_Click(object sender, EventArgs e)
         {
             // reading RFID card value from user selection
@@ -33,6 +37,7 @@ namespace WindowsFormsApplication6
             String key = txtLoadkey.Text;
             try
             {
+                EasyPodLib easyPodLib = new EasyPodLib();
                 txtIdenity.Text = easyPodLib.read_rfid_value(sectorID, blockID, keyAB, key);
                 MessageBox.Show("Read Data完成");
             }
@@ -67,6 +72,12 @@ namespace WindowsFormsApplication6
         {
             try
             {
+                #region//Validation
+                if (string.IsNullOrEmpty(txtWriteData.Text))
+                {
+                    MessageBox.Show("文字必填"); return;
+                }
+                #endregion
                 throw new NotImplementedException();
                 MessageBox.Show("Write Data完成");
             }
@@ -101,7 +112,7 @@ namespace WindowsFormsApplication6
             }
             if (!int.TryParse(txtMemberCredit_Issue.Text, out int intMemberCredit))
             {
-                MessageBox.Show("會員點數格式錯誤, " + txtMemberApplyDate_Issue.Text); return;
+                MessageBox.Show("會員點數格式錯誤, " + txtMemberCredit_Issue.Text); return;
             }
             if (!DateTime.TryParse(txtMemberApplyDate_Issue.Text, out DateTime dtApplyDate))
             {
@@ -111,14 +122,15 @@ namespace WindowsFormsApplication6
 
             try
             {
-                #region//Write data
-               
-                #endregion
+                EasyPodLib easyPodLib = new EasyPodLib();
+                //Write data
+                easyPodLib.Create_Card(txtMemberNo_Issue.Text, txtMemberName_Issue.Text, dtApplyDate, intMemberCredit, txtLoadkey.Text);
+                
                 MessageBox.Show("寫入完成");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("發生錯誤!" + ex.Message);
+                MessageBox.Show("發生錯誤! " + ex.Message);
             }
         }
         /// <summary>
@@ -130,14 +142,13 @@ namespace WindowsFormsApplication6
         {
             try
             {
-                #region//Write data
-              
-                #endregion
+                EasyPodLib easyPodLib = new EasyPodLib();
+                easyPodLib.Clear_Card(txtLoadkey.Text);
                 MessageBox.Show("清空完成");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("發生錯誤!" + ex.Message);
+                MessageBox.Show("發生錯誤! " + ex.Message);
             }
         }
 
@@ -165,6 +176,7 @@ namespace WindowsFormsApplication6
         {
             Close();
         }
+
 
     }
 }

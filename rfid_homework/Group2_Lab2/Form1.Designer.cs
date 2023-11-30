@@ -74,7 +74,7 @@
             this.btnConsume = new System.Windows.Forms.Button();
             this.txtMemberCredit_Consume = new System.Windows.Forms.TextBox();
             this.btnWritedata = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtWriteData = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -568,18 +568,18 @@
             this.btnWritedata.UseVisualStyleBackColor = true;
             this.btnWritedata.Click += new System.EventHandler(this.btnWritedata_Click);
             // 
-            // textBox1
+            // txtWriteData
             // 
-            this.textBox1.Font = new System.Drawing.Font("新細明體", 12F);
-            this.textBox1.Location = new System.Drawing.Point(16, 164);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(403, 36);
-            this.textBox1.TabIndex = 24;
+            this.txtWriteData.Font = new System.Drawing.Font("新細明體", 12F);
+            this.txtWriteData.Location = new System.Drawing.Point(16, 164);
+            this.txtWriteData.Name = "txtWriteData";
+            this.txtWriteData.Size = new System.Drawing.Size(403, 36);
+            this.txtWriteData.TabIndex = 24;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.combKeyab);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtWriteData);
             this.groupBox1.Controls.Add(this.lbSector);
             this.groupBox1.Controls.Add(this.btnWritedata);
             this.groupBox1.Controls.Add(this.lbBlock);
@@ -607,6 +607,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "ISO14443A";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -673,7 +674,7 @@
         private System.Windows.Forms.Button btnConsume;
         private System.Windows.Forms.TextBox txtMemberCredit_Consume;
         internal System.Windows.Forms.Button btnWritedata;
-        internal System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.TextBox txtWriteData;
         private System.Windows.Forms.GroupBox groupBox1;
     }
 }
