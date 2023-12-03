@@ -35,6 +35,8 @@ public class EasyPodLib
         var s2 = read_rfid_value(0, 2, "A", loadKey);
         var s11 = ConvertHexStringToByteArray(s1);
         var s22 = ConvertHexStringToByteArray(s2);
+        var s111 = Encoding.Default.GetString(s11);
+        var s222 = Encoding.Default.GetString(s22);
         //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
         //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
         //var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
