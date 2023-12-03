@@ -170,12 +170,13 @@ public class EasyPodLib
 
         return resultStr;
     }
-    unsafe public String write_rfid_value(byte[] val)
+    unsafe public String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, byte[] val)
     {
         UInt32 dwResult, Index;
         UInt32 uiLength, uiRead, uiResult, uiWritten;
         byte[] ReadBuffer = new byte[0x40];
-        byte[] WriteBuffer = val;
+        byte[] WriteBuffer = build_write_cmd(sector, block, keyAB, key);
+        var result = WriteBuffer.Concat((val)).ToArray();
 
         byte[] sResponse = null;
         sResponse = new byte[21];
@@ -263,6 +264,35 @@ public class EasyPodLib
             (byte)block   // Block
         };
         var result = WriteBuffer.Concat(ConvertStringToByteArray(val)).ToArray();
+        Console.WriteLine(BitConverter.ToString(WriteBuffer));
+        Console.WriteLine(BitConverter.ToString(result));
+
+        return result;
+    }
+    private byte[] build_write_cmd(UInt16 sector, UInt16 block, String keyAB, String key)
+    {
+        // convert hex string to byte array
+        byte[] key_bytes = new byte[key.Length / 2];
+
+        for (int i = 0; i < key.Length; i += 2)
+            key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
+
+        // build up command
+        byte[] WriteBuffer = new byte[] {
+            0x2,  // STX
+            0x1A,  // LEN
+            0x16, // CMD
+            (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
+            key_bytes[0], // KEY most left
+            key_bytes[2], // KEY 
+            key_bytes[1], // KEY 
+            key_bytes[3], // KEY 
+            key_bytes[4], // KEY 
+            key_bytes[5], // KEY most right
+            (byte)sector, // Sector
+            (byte)block   // Block
+        };
+        var result = WriteBuffer;
         Console.WriteLine(BitConverter.ToString(WriteBuffer));
         Console.WriteLine(BitConverter.ToString(result));
 

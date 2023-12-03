@@ -213,11 +213,11 @@
             // 
             // txtIdenity
             // 
-            this.txtIdenity.Font = new System.Drawing.Font("新細明體", 12F);
+            this.txtIdenity.Font = new System.Drawing.Font("新細明體", 10F);
             this.txtIdenity.Location = new System.Drawing.Point(14, 98);
             this.txtIdenity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIdenity.Name = "txtIdenity";
-            this.txtIdenity.Size = new System.Drawing.Size(359, 31);
+            this.txtIdenity.Size = new System.Drawing.Size(369, 27);
             this.txtIdenity.TabIndex = 20;
             // 
             // btnReaddata
@@ -594,11 +594,11 @@
             // 
             // txtWriteHexData
             // 
-            this.txtWriteHexData.Font = new System.Drawing.Font("新細明體", 12F);
+            this.txtWriteHexData.Font = new System.Drawing.Font("新細明體", 10F);
             this.txtWriteHexData.Location = new System.Drawing.Point(14, 137);
             this.txtWriteHexData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtWriteHexData.Name = "txtWriteHexData";
-            this.txtWriteHexData.Size = new System.Drawing.Size(359, 31);
+            this.txtWriteHexData.Size = new System.Drawing.Size(369, 27);
             this.txtWriteHexData.TabIndex = 24;
             // 
             // groupBox1

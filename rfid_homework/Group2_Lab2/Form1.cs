@@ -98,9 +98,13 @@ namespace WindowsFormsApplication6
                     }
                     byteArray[i] = Convert.ToByte(hexValues[i], 16);
                 }
+                UInt16 sectorID = (ushort)combSector.SelectedIndex;
+                UInt16 blockID = (ushort)combBlock.SelectedIndex;
+                String keyAB = combKeyab.GetItemText(combKeyab.SelectedItem);
+                String key = txtLoadkey.Text;
 
-                easyPodLib.write_rfid_value(byteArray);
-                throw new NotImplementedException();
+                easyPodLib.write_rfid_value(sectorID, blockID, keyAB, key, byteArray);
+                //throw new NotImplementedException();
                 MessageBox.Show("Write Data完成");
             }
             catch (Exception ex)
