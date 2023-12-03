@@ -92,6 +92,10 @@ namespace WindowsFormsApplication6
                 byte[] byteArray = new byte[hexValues.Length];
                 for (int i = 0; i < hexValues.Length; i++)
                 {
+                    if (!byte.TryParse(hexValues[i], out byte byteVal))
+                    {
+                        MessageBox.Show("必須為數字組成"); return;
+                    }
                     byteArray[i] = Convert.ToByte(hexValues[i], 16);
                 }
 
