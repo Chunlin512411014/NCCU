@@ -16,8 +16,8 @@ public class EasyPodLib
 
     public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, no);
-        var s2 = write_rfid_value(0, 2, "A", loadKey, name);
+        var s1 = write_rfid_value(0, 1, "A", loadKey, ConvertStringToByteArray(no));
+        var s2 = write_rfid_value(0, 2, "A", loadKey, ConvertStringToByteArray(name));
         //var s3 = write_rfid_value(1, 0, "A", loadKey, applydate.ToShortDateString());
         //var s4 = write_rfid_value(1, 1, "A", loadKey, credit.ToString());
     }
@@ -31,10 +31,10 @@ public class EasyPodLib
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var s1 = read_rfid_value(0, 1, "A", loadKey);
-        var s2 = read_rfid_value(0, 2, "A", loadKey);
-        var s11 = ConvertHexStringToString(s1);
-        var s22 = ConvertHexStringToString(s2);
+        var s1 = read_rfid_value_byte(0, 1, "A", loadKey);
+        var s2 = read_rfid_value_byte(0, 2, "A", loadKey);
+        var s11 = ConvertByteArrayToString(s1);
+        var s22 = ConvertByteArrayToString(s2);
         
         //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
         //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
@@ -132,49 +132,7 @@ public class EasyPodLib
 
         return resultBytes;
     }
-    unsafe private String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, string val)
-    {
-        UInt32 dwResult, Index;
-        UInt32 uiLength, uiRead, uiResult, uiWritten;
-        byte[] ReadBuffer = new byte[0x40];
-        byte[] WriteBuffer = build_write_cmd(sector, block, keyAB, key, val);
-
-        byte[] sResponse = null;
-        sResponse = new byte[21];
-
-        EasyPOD.VID = 0xe6a;
-        EasyPOD.PID = 0x317;
-        Index = 1;
-        uiLength = 64;
-
-        String resultStr = "";
-
-        fixed (MW_EasyPOD* pPOD = &EasyPOD)
-        {
-            dwResult = PODfuncs.ConnectPOD(pPOD, Index);
-
-            if ((dwResult != 0))
-            {
-                throw new Exception("Not connected yet");
-            }
-            else
-            {
-                EasyPOD.ReadTimeOut = 200;
-                EasyPOD.WriteTimeOut = 200;
-
-                //dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, 4, &uiWritten);    //Send a request command to reader
-                dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, Convert.ToUInt32(WriteBuffer.Length), &uiWritten);    //Send a request command to reader
-                uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
-
-                // decode result to HEX format
-                resultStr = BitConverter.ToString(ReadBuffer, 4, (Int32)uiRead).Replace("-", " ");
-            }
-            dwResult = PODfuncs.ClearPODBuffer(pPOD);
-            dwResult = PODfuncs.DisconnectPOD(pPOD);
-        }
-
-        return resultStr;
-    }
+   
     unsafe public String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, byte[] val)
     {
         UInt32 dwResult, Index;
@@ -268,7 +226,7 @@ public class EasyPodLib
             (byte)sector, // Sector
             (byte)block   // Block
         };
-        var result = WriteBuffer.Concat(ConvertStringToByteArray(val)).ToArray();
+        var result = WriteBuffer.Concat(Encoding.UTF8.GetBytes(val)).ToArray();
         Console.WriteLine(BitConverter.ToString(WriteBuffer));
         Console.WriteLine(BitConverter.ToString(result));
 
@@ -303,12 +261,12 @@ public class EasyPodLib
 
         return result;
     }
-    static byte[] ConvertStringToByteArray(string val)
+    public byte[] ConvertStringToByteArray(string text)
     {
         // 使用 UTF-8 編碼將字符串轉換成 byte[]
-        byte[] byteArray = Encoding.UTF8.GetBytes(val);
+        byte[] byteArray = Encoding.UTF8.GetBytes(text);
 
-        // 如果長度小於32，則補零
+        // 如果長度小於16，則補零
         if (byteArray.Length < 16)
         {
             byte[] paddedArray = new byte[16];
@@ -317,6 +275,16 @@ public class EasyPodLib
         }
 
         return byteArray;
+    }
+    public string ConvertByteArrayToString(byte[] byteArray)
+    {
+        // 使用 UTF-8 解碼將 byte[] 轉換成字符串
+        string resultString = Encoding.UTF8.GetString(byteArray);
+
+        // 去除尾部的零
+        resultString = resultString.TrimEnd('\0');
+
+        return resultString;
     }
     public string ConvertHexStringToString(string val)
     {

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 //using System.BitConverter;
 
 namespace WindowsFormsApplication6
@@ -28,12 +32,33 @@ namespace WindowsFormsApplication6
             txtMemberApplyDate_Issue.Text = DateTime.Now.ToShortDateString();
             string val = "王1";
             var ss = val.ToCharArray();
-            
+            var s1 = Encoding.UTF8.GetBytes("王");
+            var s2 = Encoding.UTF8.GetBytes("王王");
+            var s3 = Encoding.UTF8.GetBytes("王大王");
+            var s4 = Encoding.UTF8.GetBytes("123");
+            var b1 = BitConverter.ToString(s1);
+            var b2 = BitConverter.ToString(s2);
+            var b3 = BitConverter.ToString(s3);
+            var b4 = BitConverter.ToString(s4);
+
+            List<string> list = new List<string>();
+            foreach (var v in new string[] { "王", "王王", "王大王", "123" })
+            {
+                var b = easyPodLib.ConvertStringToByteArray(v);
+                var bs = BitConverter.ToString(b);
+                var s = easyPodLib.ConvertByteArrayToString(b);
+                Console.Write(b);
+                Console.Write(bs);
+                Console.WriteLine(s);
+            }
             foreach (var s in ss)
             {
                 var si = Convert.ToInt32(s);
                 var sxx = BitConverter.GetBytes(si);
+
                 var sss = BitConverter.ToString(sxx);
+                //easyPodLib.ConvertStringToByteArray(s);
+
                 Console.WriteLine(BitConverter.ToString(sxx));
             }
         }
@@ -181,7 +206,7 @@ namespace WindowsFormsApplication6
             try
             {
                 easyPodLib.Read_Card(txtLoadkey.Text);
-                MessageBox.Show("清空完成");
+                MessageBox.Show("讀取完成");
             }
             catch (Exception ex)
             {
