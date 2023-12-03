@@ -38,7 +38,7 @@ public class EasyPodLib
         result.no = ConvertByteArrayToString(byteNo);
         result.name = ConvertByteArrayToString(byteNm);
         result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteAd));
-        result.credit = int.Parse(ConvertByteArrayToString(byteCt));
+        result.credit = int.Parse(ConvertByteArrayToString(byteCt)); 
         return result;
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
