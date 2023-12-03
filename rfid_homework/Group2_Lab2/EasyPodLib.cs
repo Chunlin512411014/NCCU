@@ -18,23 +18,27 @@ public class EasyPodLib
     {
         var s1 = write_rfid_value(0, 1, "A", loadKey, no);
         var s2 = write_rfid_value(0, 2, "A", loadKey, name);
-        var s3 = write_rfid_value(1, 0, "A", loadKey, applydate.ToShortDateString());
-        var s4 = write_rfid_value(1, 1, "A", loadKey, credit.ToString());
+        //var s3 = write_rfid_value(1, 0, "A", loadKey, applydate.ToShortDateString());
+        //var s4 = write_rfid_value(1, 1, "A", loadKey, credit.ToString());
     }
     public void Clear_Card(string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, "0");
-        var s2 = write_rfid_value(0, 2, "A", loadKey, "0");
-        var s3 = write_rfid_value(1, 0, "A", loadKey, "0");
-        var s4 = write_rfid_value(1, 1, "A", loadKey, "0");
+        //var s1 = write_rfid_value(0, 1, "A", loadKey, "0");
+        //var s2 = write_rfid_value(0, 2, "A", loadKey, "0");
+        //var s3 = write_rfid_value(1, 0, "A", loadKey, "0");
+        //var s4 = write_rfid_value(1, 1, "A", loadKey, "0");
     }
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
-        var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
-        var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
-        var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
+        var s1 = read_rfid_value(0, 1, "A", loadKey);
+        var s2 = read_rfid_value(0, 2, "A", loadKey);
+        var s11 = ConvertHexStringToByteArray(s1);
+        var s22 = ConvertHexStringToByteArray(s2);
+        //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
+        //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
+        //var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
+        //var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
         return result;
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
