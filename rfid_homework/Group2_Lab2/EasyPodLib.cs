@@ -35,9 +35,9 @@ public class EasyPodLib
         var byteNm = read_rfid_value_byte(0, 2, "A", loadKey);
         var byteDt = read_rfid_value_byte(1, 0, "A", loadKey);
         var byteCt = read_rfid_value_byte(1, 1, "A", loadKey);
-        result.no= ConvertByteArrayToString(byteNo);
+        result.no = ConvertByteArrayToString(byteNo);
         result.name = ConvertByteArrayToString(byteNm);
-        result.applydate = Convert.ToDateTime( ConvertByteArrayToString(byteDt));
+        result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteDt));
         result.credit = int.Parse(ConvertByteArrayToString(byteCt));
         //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
         //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));

@@ -205,7 +205,11 @@ namespace WindowsFormsApplication6
         {
             try
             {
-                easyPodLib.Read_Card(txtLoadkey.Text);
+                var result = easyPodLib.Read_Card(txtLoadkey.Text);
+                txtMemberNo_Inquery.Text = result.no;
+                txtMemberName_Inquery.Text = result.name;
+                txtMemberApplyDate_Inquery.Text = result.applydate.ToShortDateString();
+                txtMemberCredit_Inquery.Text = result.credit.ToString();
                 MessageBox.Show("讀取完成");
             }
             catch (Exception ex)
