@@ -16,33 +16,29 @@ public class EasyPodLib
 
     public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, ConvertStringToByteArray(no));
-        var s2 = write_rfid_value(0, 2, "A", loadKey, ConvertStringToByteArray(name));
-        //var s3 = write_rfid_value(1, 0, "A", loadKey, applydate.ToShortDateString());
-        //var s4 = write_rfid_value(1, 1, "A", loadKey, credit.ToString());
+        var sNo = write_rfid_value(0, 1, "A", loadKey, ConvertStringToByteArray(no));
+        var sNm = write_rfid_value(0, 2, "A", loadKey, ConvertStringToByteArray(name));
+        var sAd = write_rfid_value(1, 0, "A", loadKey, ConvertStringToByteArray(applydate.ToShortDateString()));
+        var sCt = write_rfid_value(1, 1, "A", loadKey, ConvertStringToByteArray(credit.ToString()));
     }
     public void Clear_Card(string loadKey)
     {
-        //var s1 = write_rfid_value(0, 1, "A", loadKey, "0");
-        //var s2 = write_rfid_value(0, 2, "A", loadKey, "0");
-        //var s3 = write_rfid_value(1, 0, "A", loadKey, "0");
-        //var s4 = write_rfid_value(1, 1, "A", loadKey, "0");
+        var s1 = write_rfid_value(0, 1, "A", loadKey, new byte[16]);
+        var s2 = write_rfid_value(0, 2, "A", loadKey, new byte[16]);
+        var s3 = write_rfid_value(1, 0, "A", loadKey, new byte[16]);
+        var s4 = write_rfid_value(1, 1, "A", loadKey, new byte[16]);
     }
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
         var byteNo = read_rfid_value_byte(0, 1, "A", loadKey);
         var byteNm = read_rfid_value_byte(0, 2, "A", loadKey);
-        var byteDt = read_rfid_value_byte(1, 0, "A", loadKey);
+        var byteAd = read_rfid_value_byte(1, 0, "A", loadKey);
         var byteCt = read_rfid_value_byte(1, 1, "A", loadKey);
         result.no = ConvertByteArrayToString(byteNo);
         result.name = ConvertByteArrayToString(byteNm);
-        result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteDt));
+        result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteAd));
         result.credit = int.Parse(ConvertByteArrayToString(byteCt));
-        //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
-        //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
-        //var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
-        //var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
         return result;
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
@@ -206,35 +202,6 @@ public class EasyPodLib
         Console.WriteLine(BitConverter.ToString(WriteBuffer));
         return WriteBuffer;
     }
-    private byte[] build_write_cmd(UInt16 sector, UInt16 block, String keyAB, String key, string val)
-    {
-        // convert hex string to byte array
-        byte[] key_bytes = new byte[key.Length / 2];
-
-        for (int i = 0; i < key.Length; i += 2)
-            key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
-
-        // build up command
-        byte[] WriteBuffer = new byte[] {
-            0x2,  // STX
-            0x1A,  // LEN
-            0x16, // CMD
-            (byte)((keyAB == "A")? 0x60: 0x61), // KEY Type
-            key_bytes[0], // KEY most left
-            key_bytes[2], // KEY 
-            key_bytes[1], // KEY 
-            key_bytes[3], // KEY 
-            key_bytes[4], // KEY 
-            key_bytes[5], // KEY most right
-            (byte)sector, // Sector
-            (byte)block   // Block
-        };
-        var result = WriteBuffer.Concat(Encoding.UTF8.GetBytes(val)).ToArray();
-        Console.WriteLine(BitConverter.ToString(WriteBuffer));
-        Console.WriteLine(BitConverter.ToString(result));
-
-        return result;
-    }
     private byte[] build_write_cmd(UInt16 sector, UInt16 block, String keyAB, String key)
     {
         // convert hex string to byte array
@@ -289,18 +256,7 @@ public class EasyPodLib
 
         return resultString;
     }
-    public string ConvertHexStringToString(string val)
-    {
-        string[] hexValues = val.Split(' ');
-        char[] charArray = new char[hexValues.Length];
-
-        for (int i = 0; i < hexValues.Length; i++)
-        {
-            byte byteValue = Convert.ToByte(hexValues[i], 16);
-            charArray[i] = (char)byteValue;
-        }
-        return new string(charArray); ;
-    }
+    
     public byte[] ConvertHexStringToByteArray(string val)
     {
         string[] hexValues = val.Split(' ');
