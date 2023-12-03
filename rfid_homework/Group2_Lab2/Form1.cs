@@ -9,7 +9,7 @@ namespace WindowsFormsApplication6
         
         UInt16 LOADKEY_LENGTH  = 12;
         static string key = "FFFFFFFFFFFF";
-        
+        EasyPodLib easyPodLib = new EasyPodLib();
         //定義會員資料的位置
         MemberRfid memberRfid = new MemberRfid
         {
@@ -26,7 +26,16 @@ namespace WindowsFormsApplication6
         {
             txtLoadkey.Text = key;
             txtMemberApplyDate_Issue.Text = DateTime.Now.ToShortDateString();
-
+            string val = "王1";
+            var ss = val.ToCharArray();
+            
+            foreach (var s in ss)
+            {
+                var si = Convert.ToInt32(s);
+                var sxx = BitConverter.GetBytes(si);
+                var sss = BitConverter.ToString(sxx);
+                Console.WriteLine(BitConverter.ToString(sxx));
+            }
         }
         private void btnReaddata_Click(object sender, EventArgs e)
         {
@@ -142,7 +151,7 @@ namespace WindowsFormsApplication6
         {
             try
             {
-                EasyPodLib easyPodLib = new EasyPodLib();
+               
                 easyPodLib.Clear_Card(txtLoadkey.Text);
                 MessageBox.Show("清空完成");
             }
@@ -159,7 +168,16 @@ namespace WindowsFormsApplication6
         /// <param name="e"></param>
         private void btnReadCard_Inquery_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                easyPodLib.Read_Card(txtLoadkey.Text);
+                MessageBox.Show("清空完成");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("發生錯誤! " + ex.Message);
+            }
+            easyPodLib.Clear_Card(txtLoadkey.Text);
         }
 
         private void btnRecharge_Click(object sender, EventArgs e)

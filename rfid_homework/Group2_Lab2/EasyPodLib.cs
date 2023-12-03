@@ -12,26 +12,30 @@ public class EasyPodLib
     AddressStruct AddressApplyDate = new AddressStruct(0, 3, "A");
     AddressStruct AddressCredit = new AddressStruct(0, 4, "A");
 
+
     public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, no);
-        var s2 = write_rfid_value(0, 2, "A", loadKey, name);
-        var s3 = write_rfid_value(0, 3, "A", loadKey, applydate.ToShortDateString());
-        var s4 = write_rfid_value(0, 4, "A", loadKey, credit.ToString());
+        var s1 = write_rfid_value(1, 0, "A", loadKey, no);
+        var s2 = write_rfid_value(1, 1, "A", loadKey, name);
+        var s3 = write_rfid_value(1, 2, "A", loadKey, applydate.ToShortDateString());
+        var s4 = write_rfid_value(1, 3, "A", loadKey, credit.ToString());
     }
     public void Clear_Card(string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, "");
-        var s2 = write_rfid_value(0, 2, "A", loadKey, "");
-        var s3 = write_rfid_value(0, 3, "A", loadKey, "");
-        var s4 = write_rfid_value(0, 4, "A", loadKey, "");
+        var s1 = write_rfid_value(1, 0, "A", loadKey, "0");
+        var s2 = write_rfid_value(1, 1, "A", loadKey, "0");
+        var s3 = write_rfid_value(1, 2, "A", loadKey, "0");
+        var s4 = write_rfid_value(1, 3, "A", loadKey, "0");
     }
-    public void Read_Card(string loadKey)
+    public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
-        var s1 = read_rfid_value(0, 1, "A", loadKey);
-        var s2 = read_rfid_value(0, 2, "A", loadKey);
-        var s3 = read_rfid_value(0, 3, "A", loadKey);
-        var s4 = read_rfid_value(0, 4, "A", loadKey);
+        var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
+        var s1 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
+       
+        var s2 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
+        var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 2, "A", loadKey));
+        var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 3, "A", loadKey));
+        return result;
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
     {
@@ -76,6 +80,52 @@ public class EasyPodLib
         }
 
         return resultStr;
+    }
+    public unsafe byte[] read_rfid_value_byte(UInt16 sector, UInt16 block, String keyAB, String key)
+    {
+        UInt32 dwResult, Index;
+        UInt32 uiLength, uiRead, uiResult, uiWritten;
+        byte[] ReadBuffer = new byte[0x40];
+        byte[] WriteBuffer = build_cmd(sector, block, keyAB, key);
+
+        byte[] sResponse = null;
+        sResponse = new byte[21];
+
+        EasyPOD.VID = 0xe6a;
+        EasyPOD.PID = 0x317;
+        Index = 1;
+        uiLength = 64;
+
+        String resultStr = "";
+        byte[] resultBytes = null;
+
+        fixed (MW_EasyPOD* pPOD = &EasyPOD)
+        {
+
+            dwResult = PODfuncs.ConnectPOD(pPOD, Index);
+            
+            if ((dwResult != 0))
+            {
+                throw new Exception("Not connected yet");
+                //MessageBox.Show("Not connected yet");
+            }
+            else
+            {
+                EasyPOD.ReadTimeOut = 200;
+                EasyPOD.WriteTimeOut = 200;
+
+                dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, Convert.ToUInt32(WriteBuffer.Length), &uiWritten);    //Send a request command to reader
+                uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
+                resultBytes = new byte[uiRead];
+                Array.Copy(ReadBuffer, 4, resultBytes, 0, (int)uiRead - 4);
+                // decode result to HEX format
+                resultStr = BitConverter.ToString(ReadBuffer, 4, (Int32)uiRead).Replace("-", " ");
+            }
+            dwResult = PODfuncs.ClearPODBuffer(pPOD);
+            dwResult = PODfuncs.DisconnectPOD(pPOD);
+        }
+
+        return resultBytes;
     }
     unsafe private String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, string val)
     {
