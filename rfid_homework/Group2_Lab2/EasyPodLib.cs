@@ -15,26 +15,25 @@ public class EasyPodLib
 
     public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
     {
-        var s1 = write_rfid_value(1, 0, "A", loadKey, no);
-        var s2 = write_rfid_value(1, 1, "A", loadKey, name);
-        var s3 = write_rfid_value(1, 2, "A", loadKey, applydate.ToShortDateString());
-        var s4 = write_rfid_value(1, 3, "A", loadKey, credit.ToString());
+        var s1 = write_rfid_value(0, 1, "A", loadKey, no);
+        var s2 = write_rfid_value(0, 2, "A", loadKey, name);
+        var s3 = write_rfid_value(1, 0, "A", loadKey, applydate.ToShortDateString());
+        var s4 = write_rfid_value(1, 1, "A", loadKey, credit.ToString());
     }
     public void Clear_Card(string loadKey)
     {
-        var s1 = write_rfid_value(1, 0, "A", loadKey, "0");
-        var s2 = write_rfid_value(1, 1, "A", loadKey, "0");
-        var s3 = write_rfid_value(1, 2, "A", loadKey, "0");
-        var s4 = write_rfid_value(1, 3, "A", loadKey, "0");
+        var s1 = write_rfid_value(0, 1, "A", loadKey, "0");
+        var s2 = write_rfid_value(0, 2, "A", loadKey, "0");
+        var s3 = write_rfid_value(1, 0, "A", loadKey, "0");
+        var s4 = write_rfid_value(1, 1, "A", loadKey, "0");
     }
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var s1 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
-       
-        var s2 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
-        var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 2, "A", loadKey));
-        var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 3, "A", loadKey));
+        var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
+        var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
+        var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
+        var s4 = Encoding.Default.GetString(read_rfid_value_byte(1, 1, "A", loadKey));
         return result;
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
@@ -176,7 +175,7 @@ public class EasyPodLib
         UInt32 uiLength, uiRead, uiResult, uiWritten;
         byte[] ReadBuffer = new byte[0x40];
         byte[] WriteBuffer = build_write_cmd(sector, block, keyAB, key);
-        var result = WriteBuffer.Concat((val)).ToArray();
+        WriteBuffer = WriteBuffer.Concat((val)).ToArray();
 
         byte[] sResponse = null;
         sResponse = new byte[21];
