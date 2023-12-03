@@ -87,17 +87,10 @@ namespace WindowsFormsApplication6
                     MessageBox.Show("文字必填"); return;
                 }
                 #endregion
-                //31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-                string[] hexValues = txtWriteHexData.Text.Split(' ');
-                byte[] byteArray = new byte[hexValues.Length];
-                for (int i = 0; i < hexValues.Length; i++)
-                {
-                    if (!byte.TryParse(hexValues[i], out byte byteVal))
-                    {
-                        MessageBox.Show("必須為數字組成"); return;
-                    }
-                    byteArray[i] = Convert.ToByte(hexValues[i], 16);
-                }
+                //txtWriteHexData.text = 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+                byte[] byteArray = easyPodLib.ConvertHexStringToByteArray(txtWriteHexData.Text);
+               
                 UInt16 sectorID = (ushort)combSector.SelectedIndex;
                 UInt16 blockID = (ushort)combBlock.SelectedIndex;
                 String keyAB = combKeyab.GetItemText(combKeyab.SelectedItem);
