@@ -31,11 +31,14 @@ public class EasyPodLib
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var s1 = read_rfid_value_byte(0, 1, "A", loadKey);
-        var s2 = read_rfid_value_byte(0, 2, "A", loadKey);
-        var s11 = ConvertByteArrayToString(s1);
-        var s22 = ConvertByteArrayToString(s2);
-        
+        var byteNo = read_rfid_value_byte(0, 1, "A", loadKey);
+        var byteNm = read_rfid_value_byte(0, 2, "A", loadKey);
+        var byteDt = read_rfid_value_byte(1, 0, "A", loadKey);
+        var byteCt = read_rfid_value_byte(1, 1, "A", loadKey);
+        result.no= ConvertByteArrayToString(byteNo);
+        result.name = ConvertByteArrayToString(byteNm);
+        result.applydate = Convert.ToDateTime( ConvertByteArrayToString(byteDt));
+        result.credit = int.Parse(ConvertByteArrayToString(byteCt));
         //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
         //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
         //var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
