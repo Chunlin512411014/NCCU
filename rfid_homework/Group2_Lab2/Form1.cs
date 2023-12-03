@@ -89,7 +89,7 @@ namespace WindowsFormsApplication6
                 #endregion
                 //txtWriteHexData.text = 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-                byte[] byteArray = easyPodLib.ConvertHexStringToString(txtWriteHexData.Text);
+                byte[] byteArray = easyPodLib.ConvertHexStringToByteArray(txtWriteHexData.Text);
                
                 UInt16 sectorID = (ushort)combSector.SelectedIndex;
                 UInt16 blockID = (ushort)combBlock.SelectedIndex;

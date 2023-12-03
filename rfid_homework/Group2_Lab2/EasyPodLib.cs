@@ -35,8 +35,7 @@ public class EasyPodLib
         var s2 = read_rfid_value(0, 2, "A", loadKey);
         var s11 = ConvertHexStringToString(s1);
         var s22 = ConvertHexStringToString(s2);
-        var s111 = Encoding.Default.GetString(s11);
-        var s222 = Encoding.Default.GetString(s22);
+        
         //var s1 = Encoding.Default.GetString(read_rfid_value_byte(0, 1, "A", loadKey));
         //var s2 = Encoding.Default.GetString(read_rfid_value_byte(0, 2, "A", loadKey));
         //var s3 = Encoding.Default.GetString(read_rfid_value_byte(1, 0, "A", loadKey));
@@ -330,6 +329,20 @@ public class EasyPodLib
             charArray[i] = (char)byteValue;
         }
         return new string(charArray); ;
+    }
+    public byte[] ConvertHexStringToByteArray(string val)
+    {
+        string[] hexValues = val.Split(' ');
+        byte[] byteArray = new byte[hexValues.Length];
+        for (int i = 0; i < hexValues.Length; i++)
+        {
+            if (!byte.TryParse(hexValues[i], out byte byteVal))
+            {
+                throw new Exception("必須為數字組成");
+            }
+            byteArray[i] = Convert.ToByte(hexValues[i], 16);
+        }
+        return byteArray;
     }
 }
 public class MemberRfid
