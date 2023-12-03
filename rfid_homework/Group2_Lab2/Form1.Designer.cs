@@ -113,7 +113,7 @@
             // 
             this.lbBlock.AutoSize = true;
             this.lbBlock.Font = new System.Drawing.Font("新細明體", 12F);
-            this.lbBlock.Location = new System.Drawing.Point(116, 28);
+            this.lbBlock.Location = new System.Drawing.Point(126, 28);
             this.lbBlock.Name = "lbBlock";
             this.lbBlock.Size = new System.Drawing.Size(53, 20);
             this.lbBlock.TabIndex = 13;
@@ -123,7 +123,7 @@
             // 
             this.lbKeyab.AutoSize = true;
             this.lbKeyab.Font = new System.Drawing.Font("新細明體", 12F);
-            this.lbKeyab.Location = new System.Drawing.Point(216, 28);
+            this.lbKeyab.Location = new System.Drawing.Point(234, 28);
             this.lbKeyab.Name = "lbKeyab";
             this.lbKeyab.Size = new System.Drawing.Size(67, 20);
             this.lbKeyab.TabIndex = 14;
@@ -133,7 +133,7 @@
             // 
             this.lbLoadkey.AutoSize = true;
             this.lbLoadkey.Font = new System.Drawing.Font("新細明體", 12F);
-            this.lbLoadkey.Location = new System.Drawing.Point(316, 28);
+            this.lbLoadkey.Location = new System.Drawing.Point(346, 28);
             this.lbLoadkey.Name = "lbLoadkey";
             this.lbLoadkey.Size = new System.Drawing.Size(77, 20);
             this.lbLoadkey.TabIndex = 15;
@@ -178,7 +178,7 @@
             "01",
             "02",
             "03"});
-            this.combBlock.Location = new System.Drawing.Point(118, 56);
+            this.combBlock.Location = new System.Drawing.Point(130, 56);
             this.combBlock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.combBlock.Name = "combBlock";
             this.combBlock.Size = new System.Drawing.Size(78, 28);
@@ -193,7 +193,7 @@
             this.combKeyab.Items.AddRange(new object[] {
             "A",
             "B"});
-            this.combKeyab.Location = new System.Drawing.Point(219, 56);
+            this.combKeyab.Location = new System.Drawing.Point(238, 56);
             this.combKeyab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.combKeyab.Name = "combKeyab";
             this.combKeyab.Size = new System.Drawing.Size(78, 28);
@@ -203,7 +203,7 @@
             // txtLoadkey
             // 
             this.txtLoadkey.Font = new System.Drawing.Font("新細明體", 12F);
-            this.txtLoadkey.Location = new System.Drawing.Point(318, 53);
+            this.txtLoadkey.Location = new System.Drawing.Point(350, 53);
             this.txtLoadkey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLoadkey.Name = "txtLoadkey";
             this.txtLoadkey.Size = new System.Drawing.Size(183, 31);
@@ -217,7 +217,7 @@
             this.txtIdenity.Location = new System.Drawing.Point(14, 98);
             this.txtIdenity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIdenity.Name = "txtIdenity";
-            this.txtIdenity.Size = new System.Drawing.Size(407, 27);
+            this.txtIdenity.Size = new System.Drawing.Size(418, 27);
             this.txtIdenity.TabIndex = 20;
             this.txtIdenity.Text = "31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
             // 
@@ -225,10 +225,10 @@
             // 
             this.btnReaddata.Enabled = false;
             this.btnReaddata.Font = new System.Drawing.Font("新細明體", 12F);
-            this.btnReaddata.Location = new System.Drawing.Point(427, 97);
+            this.btnReaddata.Location = new System.Drawing.Point(439, 98);
             this.btnReaddata.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnReaddata.Name = "btnReaddata";
-            this.btnReaddata.Size = new System.Drawing.Size(110, 28);
+            this.btnReaddata.Size = new System.Drawing.Size(98, 28);
             this.btnReaddata.TabIndex = 21;
             this.btnReaddata.Text = "Read Data";
             this.btnReaddata.UseVisualStyleBackColor = true;
@@ -245,7 +245,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(517, 254);
+            this.tabControl1.Size = new System.Drawing.Size(537, 254);
             this.tabControl1.TabIndex = 22;
             // 
             // tabPage1
@@ -255,7 +255,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(509, 220);
+            this.tabPage1.Size = new System.Drawing.Size(529, 220);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "發卡";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -375,7 +375,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(509, 220);
+            this.tabPage2.Size = new System.Drawing.Size(529, 220);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "查詢";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -486,7 +486,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(509, 220);
+            this.tabPage3.Size = new System.Drawing.Size(529, 220);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "儲值";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -536,7 +536,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 30);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(509, 220);
+            this.tabPage4.Size = new System.Drawing.Size(529, 220);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "消費";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -584,10 +584,10 @@
             // 
             this.btnWritedata.Enabled = false;
             this.btnWritedata.Font = new System.Drawing.Font("新細明體", 12F);
-            this.btnWritedata.Location = new System.Drawing.Point(427, 134);
+            this.btnWritedata.Location = new System.Drawing.Point(439, 137);
             this.btnWritedata.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnWritedata.Name = "btnWritedata";
-            this.btnWritedata.Size = new System.Drawing.Size(110, 28);
+            this.btnWritedata.Size = new System.Drawing.Size(98, 28);
             this.btnWritedata.TabIndex = 23;
             this.btnWritedata.Text = "Write Data";
             this.btnWritedata.UseVisualStyleBackColor = true;
@@ -599,7 +599,7 @@
             this.txtWriteHexData.Location = new System.Drawing.Point(14, 137);
             this.txtWriteHexData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtWriteHexData.Name = "txtWriteHexData";
-            this.txtWriteHexData.Size = new System.Drawing.Size(406, 27);
+            this.txtWriteHexData.Size = new System.Drawing.Size(418, 27);
             this.txtWriteHexData.TabIndex = 24;
             // 
             // groupBox1
