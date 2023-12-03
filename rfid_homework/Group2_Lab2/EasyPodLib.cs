@@ -31,10 +31,10 @@ public class EasyPodLib
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
         var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var byteNo = read_rfid_value_byte(0, 1, "A", loadKey);
-        var byteNm = read_rfid_value_byte(0, 2, "A", loadKey);
-        var byteAd = read_rfid_value_byte(1, 0, "A", loadKey);
-        var byteCt = read_rfid_value_byte(1, 1, "A", loadKey);
+        var byteNo = ConvertHexStringToByteArray(read_rfid_value(0, 1, "A", loadKey));
+        var byteNm = ConvertHexStringToByteArray(read_rfid_value(0, 2, "A", loadKey));
+        var byteAd = ConvertHexStringToByteArray(read_rfid_value(1, 0, "A", loadKey));
+        var byteCt = ConvertHexStringToByteArray(read_rfid_value(1, 1, "A", loadKey));
         result.no = ConvertByteArrayToString(byteNo);
         result.name = ConvertByteArrayToString(byteNm);
         result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteAd));
@@ -85,53 +85,13 @@ public class EasyPodLib
 
         return resultStr;
     }
+   
     public unsafe byte[] read_rfid_value_byte(UInt16 sector, UInt16 block, String keyAB, String key)
     {
-        UInt32 dwResult, Index;
-        UInt32 uiLength, uiRead, uiResult, uiWritten;
-        byte[] ReadBuffer = new byte[0x40];
-        byte[] WriteBuffer = build_cmd(sector, block, keyAB, key);
+        String result = read_rfid_value(sector, block, keyAB, key);
 
-        byte[] sResponse = null;
-        sResponse = new byte[21];
-
-        EasyPOD.VID = 0xe6a;
-        EasyPOD.PID = 0x317;
-        Index = 1;
-        uiLength = 64;
-
-        String resultStr = "";
-        byte[] resultBytes = null;
-
-        fixed (MW_EasyPOD* pPOD = &EasyPOD)
-        {
-
-            dwResult = PODfuncs.ConnectPOD(pPOD, Index);
-            
-            if ((dwResult != 0))
-            {
-                throw new Exception("Not connected yet");
-                //MessageBox.Show("Not connected yet");
-            }
-            else
-            {
-                EasyPOD.ReadTimeOut = 200;
-                EasyPOD.WriteTimeOut = 200;
-
-                dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, Convert.ToUInt32(WriteBuffer.Length), &uiWritten);    //Send a request command to reader
-                uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
-                resultBytes = new byte[uiRead];
-                Array.Copy(ReadBuffer, 4, resultBytes, 0, (int)uiRead - 4);
-                // decode result to HEX format
-                resultStr = BitConverter.ToString(ReadBuffer, 4, (Int32)uiRead).Replace("-", " ");
-            }
-            dwResult = PODfuncs.ClearPODBuffer(pPOD);
-            dwResult = PODfuncs.DisconnectPOD(pPOD);
-        }
-
-        return resultBytes;
+        return ConvertHexStringToByteArray(result);
     }
-   
     unsafe public String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, byte[] val)
     {
         UInt32 dwResult, Index;
