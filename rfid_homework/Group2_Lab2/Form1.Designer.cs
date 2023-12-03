@@ -217,14 +217,15 @@
             this.txtIdenity.Location = new System.Drawing.Point(14, 98);
             this.txtIdenity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIdenity.Name = "txtIdenity";
-            this.txtIdenity.Size = new System.Drawing.Size(369, 27);
+            this.txtIdenity.Size = new System.Drawing.Size(407, 27);
             this.txtIdenity.TabIndex = 20;
+            this.txtIdenity.Text = "31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
             // 
             // btnReaddata
             // 
             this.btnReaddata.Enabled = false;
             this.btnReaddata.Font = new System.Drawing.Font("新細明體", 12F);
-            this.btnReaddata.Location = new System.Drawing.Point(390, 99);
+            this.btnReaddata.Location = new System.Drawing.Point(427, 97);
             this.btnReaddata.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnReaddata.Name = "btnReaddata";
             this.btnReaddata.Size = new System.Drawing.Size(110, 28);
@@ -583,7 +584,7 @@
             // 
             this.btnWritedata.Enabled = false;
             this.btnWritedata.Font = new System.Drawing.Font("新細明體", 12F);
-            this.btnWritedata.Location = new System.Drawing.Point(390, 135);
+            this.btnWritedata.Location = new System.Drawing.Point(427, 134);
             this.btnWritedata.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnWritedata.Name = "btnWritedata";
             this.btnWritedata.Size = new System.Drawing.Size(110, 28);
@@ -598,7 +599,7 @@
             this.txtWriteHexData.Location = new System.Drawing.Point(14, 137);
             this.txtWriteHexData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtWriteHexData.Name = "txtWriteHexData";
-            this.txtWriteHexData.Size = new System.Drawing.Size(369, 27);
+            this.txtWriteHexData.Size = new System.Drawing.Size(406, 27);
             this.txtWriteHexData.TabIndex = 24;
             // 
             // groupBox1
@@ -619,7 +620,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(517, 181);
+            this.groupBox1.Size = new System.Drawing.Size(544, 181);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             // 
@@ -627,7 +628,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 515);
+            this.ClientSize = new System.Drawing.Size(568, 515);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnClose);
