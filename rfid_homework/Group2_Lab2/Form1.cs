@@ -46,7 +46,7 @@ namespace WindowsFormsApplication6
             String key = txtLoadkey.Text;
             try
             {
-                EasyPodLib easyPodLib = new EasyPodLib();
+                
                 txtIdenity.Text = easyPodLib.read_rfid_value(sectorID, blockID, keyAB, key);
                 MessageBox.Show("Read Data完成");
             }
@@ -82,11 +82,20 @@ namespace WindowsFormsApplication6
             try
             {
                 #region//Validation
-                if (string.IsNullOrEmpty(txtWriteData.Text))
+                if (string.IsNullOrEmpty(txtWriteHexData.Text))
                 {
                     MessageBox.Show("文字必填"); return;
                 }
                 #endregion
+                //31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                string[] hexValues = txtWriteHexData.Text.Split(' ');
+                byte[] byteArray = new byte[hexValues.Length];
+                for (int i = 0; i < hexValues.Length; i++)
+                {
+                    byteArray[i] = Convert.ToByte(hexValues[i], 16);
+                }
+
+                easyPodLib.write_rfid_value(byteArray);
                 throw new NotImplementedException();
                 MessageBox.Show("Write Data完成");
             }
