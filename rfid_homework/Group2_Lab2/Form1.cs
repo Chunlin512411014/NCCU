@@ -245,13 +245,13 @@ namespace WindowsFormsApplication6
             
             #region // validation
             int credit_plus = 0;
-            if (!int.TryParse(txtMemberCredit_Recharge.Text, out credit_plus))
+            if (!int.TryParse(txtMemberCredit_Consume.Text, out credit_plus))
             {
-                MessageBox.Show("點數格式錯誤, " + txtMemberCredit_Recharge.Text); return;
+                MessageBox.Show("點數格式錯誤, " + txtMemberCredit_Consume.Text); return;
             }
             if (credit_plus <= 0)
             {
-                MessageBox.Show("點數不得<=0, " + txtMemberCredit_Recharge.Text); return;
+                MessageBox.Show("點數不得<=0, " + txtMemberCredit_Consume.Text); return;
             }
             #endregion
             
