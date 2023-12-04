@@ -226,10 +226,6 @@ public class EasyPodLib
         byte[] byteArray = new byte[hexValues.Length];
         for (int i = 0; i < hexValues.Length; i++)
         {
-            if (!byte.TryParse(hexValues[i], out byte byteVal))
-            {
-                throw new Exception("必須為數字組成");
-            }
             byteArray[i] = Convert.ToByte(hexValues[i], 16);
         }
         return byteArray;

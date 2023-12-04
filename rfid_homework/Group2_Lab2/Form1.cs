@@ -255,7 +255,7 @@ namespace WindowsFormsApplication6
             try
             {
                 var result = easyPodLib.Charge_Card(credit_plus * -1, txtLoadkey.Text);
-                MessageBox.Show("消費:" + result.credit_plus + "; 可用餘額:" + result.credit_after);
+                MessageBox.Show("消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
             }
             catch (Exception ex)
             {
