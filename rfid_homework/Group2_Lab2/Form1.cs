@@ -13,7 +13,7 @@ namespace WindowsFormsApplication6
         
         UInt16 LOADKEY_LENGTH  = 12;
         static string key = "FFFFFFFFFFFF";
-        EasyPodLib easyPodLib = new EasyPodLib();
+        EasyPodLib easyPodLib = new EasyPodLib(key);
 
         public Form1()
         {
@@ -115,7 +115,6 @@ namespace WindowsFormsApplication6
                 String key = txtLoadkey.Text;
 
                 easyPodLib.write_rfid_value(sectorID, blockID, keyAB, key, byteArray);
-                //throw new NotImplementedException();
                 MessageBox.Show("Write Data完成");
             }
             catch (Exception ex)
@@ -159,9 +158,8 @@ namespace WindowsFormsApplication6
 
             try
             {
-                EasyPodLib easyPodLib = new EasyPodLib();
                 //Write data
-                easyPodLib.Create_Card(txtMemberNo_Issue.Text, txtMemberName_Issue.Text, dtApplyDate, intMemberCredit, txtLoadkey.Text);
+                easyPodLib.Create_Card(txtMemberNo_Issue.Text, txtMemberName_Issue.Text, dtApplyDate, intMemberCredit);
                 
                 MessageBox.Show("寫入完成");
             }
@@ -179,7 +177,7 @@ namespace WindowsFormsApplication6
         {
             try
             {
-                easyPodLib.Clear_Card(txtLoadkey.Text);
+                easyPodLib.Clear_Card();
                 txtMemberNo_Issue.Text = "";
                 txtMemberName_Issue.Text = "";
                 txtMemberApplyDate_Issue.Text = "";
@@ -201,7 +199,7 @@ namespace WindowsFormsApplication6
         {
             try
             {
-                var result = easyPodLib.Read_Card(txtLoadkey.Text);
+                var result = easyPodLib.Read_Card();
                 txtMemberNo_Inquery.Text = result.no;
                 txtMemberName_Inquery.Text = result.name;
                 txtMemberApplyDate_Inquery.Text = result.applydate.ToShortDateString();
@@ -229,7 +227,7 @@ namespace WindowsFormsApplication6
             #endregion
             try
             {
-                var result = easyPodLib.Charge_Card(credit_plus, txtLoadkey.Text);
+                var result = easyPodLib.Charge_Card(credit_plus);
                 MessageBox.Show("儲值:" + result.credit_plus + "; 可用餘額:" + result.credit_after);
             }
             catch (Exception ex)
@@ -237,9 +235,14 @@ namespace WindowsFormsApplication6
                 MessageBox.Show("發生錯誤! " + ex.Message);
             }
         }
-
+        /// <summary>
+        /// 消費
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConsume_Click(object sender, EventArgs e)
         {
+            
             #region // validation
             int credit_plus = 0;
             if (!int.TryParse(txtMemberCredit_Recharge.Text, out credit_plus))
@@ -254,8 +257,27 @@ namespace WindowsFormsApplication6
             
             try
             {
-                var result = easyPodLib.Charge_Card(credit_plus * -1, txtLoadkey.Text);
-                MessageBox.Show("消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
+                string message = "";
+                #region//加分題, 自動儲值
+                //自動加值金額
+                int autoChargeCredit = 2000;
+                int autoChargeRounds = 0;
+                var currentResult = easyPodLib.Read_Card();
+                var diffCredit = currentResult.credit - credit_plus;
+                while (diffCredit <= 0)
+                {
+                    autoChargeRounds++;
+                    var autoChargeResult = easyPodLib.Charge_Card(autoChargeCredit);
+                    diffCredit = autoChargeResult.credit_after - credit_plus;
+                }
+                if (autoChargeRounds > 0)
+                {
+                    message += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + (autoChargeCredit * autoChargeRounds) + "  次數:" + autoChargeRounds + Environment.NewLine;
+                }
+                #endregion
+
+                var result = easyPodLib.Charge_Card(credit_plus * -1);
+                MessageBox.Show(message + "消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
             }
             catch (Exception ex)
             {

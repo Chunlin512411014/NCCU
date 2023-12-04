@@ -90,10 +90,11 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(411, 467);
+            this.btnClose.Font = new System.Drawing.Font("新細明體", 12F);
+            this.btnClose.Location = new System.Drawing.Point(446, 466);
             this.btnClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(114, 28);
+            this.btnClose.Size = new System.Drawing.Size(98, 37);
             this.btnClose.TabIndex = 11;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -245,7 +246,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(537, 254);
+            this.tabControl1.Size = new System.Drawing.Size(545, 254);
             this.tabControl1.TabIndex = 22;
             // 
             // tabPage1
@@ -255,7 +256,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(529, 220);
+            this.tabPage1.Size = new System.Drawing.Size(537, 220);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "發卡";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -275,7 +276,7 @@
             this.panel1.Location = new System.Drawing.Point(18, 19);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(599, 273);
+            this.panel1.Size = new System.Drawing.Size(505, 197);
             this.panel1.TabIndex = 10;
             // 
             // btnClearCard_Issue
@@ -499,7 +500,7 @@
             this.panel3.Location = new System.Drawing.Point(18, 19);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(599, 273);
+            this.panel3.Size = new System.Drawing.Size(508, 199);
             this.panel3.TabIndex = 12;
             // 
             // label9
@@ -536,7 +537,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 30);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(529, 220);
+            this.tabPage4.Size = new System.Drawing.Size(537, 220);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "消費";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -549,7 +550,7 @@
             this.panel4.Location = new System.Drawing.Point(18, 19);
             this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(599, 273);
+            this.panel4.Size = new System.Drawing.Size(489, 187);
             this.panel4.TabIndex = 13;
             // 
             // label10
@@ -598,6 +599,7 @@
             this.txtWriteHexData.Font = new System.Drawing.Font("新細明體", 10F);
             this.txtWriteHexData.Location = new System.Drawing.Point(14, 137);
             this.txtWriteHexData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtWriteHexData.MaxLength = 59;
             this.txtWriteHexData.Name = "txtWriteHexData";
             this.txtWriteHexData.Size = new System.Drawing.Size(418, 27);
             this.txtWriteHexData.TabIndex = 24;
