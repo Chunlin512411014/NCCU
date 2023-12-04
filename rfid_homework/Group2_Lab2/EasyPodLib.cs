@@ -8,38 +8,41 @@ using System.Windows.Forms;
 public class EasyPodLib
 {
     MW_EasyPOD EasyPOD;
-    AddressStruct AddressNo = new AddressStruct(0, 1, "A");
-    AddressStruct AddressName = new AddressStruct(0, 2, "A");
-    AddressStruct AddressApplyDate = new AddressStruct(0, 3, "A");
-    AddressStruct AddressCredit = new AddressStruct(0, 4, "A");
-
+    AddressStruct adrNo = new AddressStruct(0, 1, "A");
+    AddressStruct adrNm = new AddressStruct(0, 2, "A");
+    AddressStruct adrAd = new AddressStruct(1, 0, "A");
+    AddressStruct adrCt = new AddressStruct(1, 1, "A");
+    
 
     public void Create_Card(string no, string name, DateTime applydate, int credit, string loadKey)
     {
-        var sNo = write_rfid_value(0, 1, "A", loadKey, ConvertStringToByteArray(no));
-        var sNm = write_rfid_value(0, 2, "A", loadKey, ConvertStringToByteArray(name));
-        var sAd = write_rfid_value(1, 0, "A", loadKey, ConvertStringToByteArray(applydate.ToShortDateString()));
-        var sCt = write_rfid_value(1, 1, "A", loadKey, ConvertStringToByteArray(credit.ToString()));
+        var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, ConvertStringToByteArray(no));
+        var sNm = write_rfid_value(adrNm.st, adrNm.bk, adrNm.ab, loadKey, ConvertStringToByteArray(name));
+        var sAd = write_rfid_value(adrAd.st, adrAd.bk, adrAd.ab, loadKey, ConvertStringToByteArray(applydate.ToShortDateString()));
+        var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, ConvertStringToByteArray(credit.ToString()));
     }
     public void Clear_Card(string loadKey)
     {
-        var s1 = write_rfid_value(0, 1, "A", loadKey, new byte[16]);
-        var s2 = write_rfid_value(0, 2, "A", loadKey, new byte[16]);
-        var s3 = write_rfid_value(1, 0, "A", loadKey, new byte[16]);
-        var s4 = write_rfid_value(1, 1, "A", loadKey, new byte[16]);
+        var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, new byte[16]);
+        var sNm = write_rfid_value(adrNm.st, adrNm.bk, adrNm.ab, loadKey, new byte[16]);
+        var sAd = write_rfid_value(adrAd.st, adrAd.bk, adrAd.ab, loadKey, new byte[16]);
+        var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, new byte[16]);
     }
     public (string no, string name, DateTime applydate, int credit) Read_Card(string loadKey)
     {
-        var result = (no: "", name: "", applydate: DateTime.MinValue, credit: 0);
-        var byteNo = ConvertHexStringToByteArray(read_rfid_value(0, 1, "A", loadKey));
-        var byteNm = ConvertHexStringToByteArray(read_rfid_value(0, 2, "A", loadKey));
-        var byteAd = ConvertHexStringToByteArray(read_rfid_value(1, 0, "A", loadKey));
-        var byteCt = ConvertHexStringToByteArray(read_rfid_value(1, 1, "A", loadKey));
-        result.no = ConvertByteArrayToString(byteNo);
-        result.name = ConvertByteArrayToString(byteNm);
-        result.applydate = Convert.ToDateTime(ConvertByteArrayToString(byteAd));
-        result.credit = int.Parse(ConvertByteArrayToString(byteCt)); 
-        return result;
+        var byteNo = ConvertHexStringToByteArray(read_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey));
+        var byteNm = ConvertHexStringToByteArray(read_rfid_value(adrNm.st, adrNm.bk, adrNm.ab, loadKey));
+        var byteAd = ConvertHexStringToByteArray(read_rfid_value(adrAd.st, adrAd.bk, adrAd.ab, loadKey));
+        var byteCt = ConvertHexStringToByteArray(read_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey));
+        return (ConvertByteArrayToString(byteNo), ConvertByteArrayToString(byteNm), Convert.ToDateTime(ConvertByteArrayToString(byteAd)), int.Parse(ConvertByteArrayToString(byteCt)));
+    }
+    public (int credit_after, int credit_plus) Charge_Card(int credit_plus, string loadKey)
+    {
+        var byteCt = ConvertHexStringToByteArray(read_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey));
+        int credit_before = int.Parse(ConvertByteArrayToString(byteCt));
+        int credit_after = credit_before + credit_plus;
+        var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, ConvertStringToByteArray(credit_after.ToString()));
+        return (credit_after, credit_plus);
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
     {
@@ -232,27 +235,17 @@ public class EasyPodLib
         return byteArray;
     }
 }
-public class MemberRfid
-{
-    public AddressStruct AddressNo;
-    public AddressStruct AddressName;
-    public AddressStruct AddressApplyDate;
-    public AddressStruct AddressCredit;
-    public string ValueNo;
-    public string ValueName;
-    public string ValueApplyDate;
-    public string ValueCredit;
-}
+
 public struct AddressStruct
 {
-    public UInt16 Sector;
-    public UInt16 Block;
-    public String KeyAB;
+    public UInt16 st;
+    public UInt16 bk;
+    public String ab;
     public AddressStruct(UInt16 Sector, UInt16 Block, String KeyAB)
     {
-        this.Sector = Sector;
-        this.Block = Block;
-        this.KeyAB = KeyAB;
+        this.st = Sector;
+        this.bk = Block;
+        this.ab = KeyAB;
     }
 }
 

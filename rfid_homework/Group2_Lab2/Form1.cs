@@ -14,14 +14,7 @@ namespace WindowsFormsApplication6
         UInt16 LOADKEY_LENGTH  = 12;
         static string key = "FFFFFFFFFFFF";
         EasyPodLib easyPodLib = new EasyPodLib();
-        //定義會員資料的位置
-        MemberRfid memberRfid = new MemberRfid
-        {
-            AddressNo = new AddressStruct(0, 1, "A"),
-            AddressName = new AddressStruct(0, 2, "A"),
-            AddressApplyDate = new AddressStruct(0, 3, "A"),
-            AddressCredit = new AddressStruct(0, 4, "A"),
-        };
+
         public Form1()
         {
             InitializeComponent();
@@ -186,8 +179,11 @@ namespace WindowsFormsApplication6
         {
             try
             {
-               
                 easyPodLib.Clear_Card(txtLoadkey.Text);
+                txtMemberNo_Issue.Text = "";
+                txtMemberName_Issue.Text = "";
+                txtMemberApplyDate_Issue.Text = "";
+                txtMemberApplyDate_Issue.Text = "";
                 MessageBox.Show("清空完成");
             }
             catch (Exception ex)
@@ -216,17 +212,55 @@ namespace WindowsFormsApplication6
             {
                 MessageBox.Show("發生錯誤! " + ex.Message);
             }
-            easyPodLib.Clear_Card(txtLoadkey.Text);
         }
 
         private void btnRecharge_Click(object sender, EventArgs e)
         {
-
+            #region // validation
+            int credit_plus = 0;
+            if(!int.TryParse(txtMemberCredit_Recharge.Text, out credit_plus))
+            {
+                MessageBox.Show("點數格式錯誤, " + txtMemberCredit_Recharge.Text); return;
+            }
+            if (credit_plus <= 0)
+            {
+                MessageBox.Show("點數不得<=0, " + txtMemberCredit_Recharge.Text); return;
+            }
+            #endregion
+            try
+            {
+                var result = easyPodLib.Charge_Card(credit_plus, txtLoadkey.Text);
+                MessageBox.Show("儲值:" + result.credit_plus + "; 可用餘額:" + result.credit_after);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("發生錯誤! " + ex.Message);
+            }
         }
 
         private void btnConsume_Click(object sender, EventArgs e)
         {
-
+            #region // validation
+            int credit_plus = 0;
+            if (!int.TryParse(txtMemberCredit_Recharge.Text, out credit_plus))
+            {
+                MessageBox.Show("點數格式錯誤, " + txtMemberCredit_Recharge.Text); return;
+            }
+            if (credit_plus <= 0)
+            {
+                MessageBox.Show("點數不得<=0, " + txtMemberCredit_Recharge.Text); return;
+            }
+            #endregion
+            
+            try
+            {
+                var result = easyPodLib.Charge_Card(credit_plus * -1, txtLoadkey.Text);
+                MessageBox.Show("消費:" + result.credit_plus + "; 可用餘額:" + result.credit_after);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("發生錯誤! " + ex.Message);
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
