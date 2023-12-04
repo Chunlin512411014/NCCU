@@ -259,16 +259,12 @@ namespace WindowsFormsApplication6
             {
                 string message = "";
                 #region//加分題, 自動儲值
-                //自動加值金額
-                int autoChargeCredit = 2000;
-                int autoChargeRounds = 0;
-                var currentResult = easyPodLib.Read_Card();
-                var diffCredit = currentResult.credit - credit_plus;
-                while (diffCredit <= 0)
+                int autoChargeCredit = 2000;//自動加值金額
+                int autoChargeRounds = 0;//自動加值次數
+                while (easyPodLib.Read_Card().credit - credit_plus <= 0)
                 {
                     autoChargeRounds++;
                     var autoChargeResult = easyPodLib.Charge_Card(autoChargeCredit);
-                    diffCredit = autoChargeResult.credit_after - credit_plus;
                 }
                 if (autoChargeRounds > 0)
                 {
