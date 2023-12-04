@@ -268,7 +268,7 @@ namespace WindowsFormsApplication6
                 }
                 if (autoChargeRounds > 0)
                 {
-                    message += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + (autoChargeCredit * autoChargeRounds) + "  次數:" + autoChargeRounds + Environment.NewLine;
+                    message += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds +"(共"+(autoChargeCredit* autoChargeRounds) +")"+ Environment.NewLine;
                 }
                 #endregion
 
