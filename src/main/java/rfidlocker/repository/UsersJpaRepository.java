@@ -9,6 +9,7 @@ import rfidlocker.entity.Users;
 public interface UsersJpaRepository extends JpaRepository<Users,Integer> {
 	
 	Optional<Users> findByEmailAndPassword(String email ,String password);
-	
+	Optional<Users> findByEmail(String email);
+	Optional<Users> findByRfidToken(String rfidToken);
 
 }

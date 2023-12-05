@@ -17,4 +17,7 @@ public class Boxes {
 	String name;
 	String location;
 	String status;
+	LocalDateTime useTime;
+	LocalDateTime createdTime;
+	
 }
