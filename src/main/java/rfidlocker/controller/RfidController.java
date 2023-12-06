@@ -23,6 +23,7 @@ public class RfidController {
 	final String pass_token = "12344444";
 	final String pass_cardNo = "3698607872";
 
+	//測試API
 	@GetMapping(value = "/card/{cardNo}")
 	public ResponseEntity<String> getData(@PathVariable String cardNo, HttpServletRequest request) {
 

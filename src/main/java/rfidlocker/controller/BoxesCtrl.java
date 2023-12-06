@@ -1,5 +1,7 @@
 package rfidlocker.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +22,19 @@ public class BoxesCtrl {
 	@Autowired
 	BoxesService boxesService;
 
+	
+	/*
+	 * boxesList 回傳所有box 的資料
+	 * 
+	 * boxes entity
+	 * 	Integer id;
+	 *  String name;
+	 *  String location;
+	 *  String status;
+	 *  LocalDateTime useTime;
+	 *  LocalDateTime createdTime;
+	 * 
+	 * */
 	// 取得所有可選box
 	@GetMapping(value = "/api/Boxes")
 	public ModelAndView getAllBox(HttpServletRequest request) {
@@ -28,8 +43,8 @@ public class BoxesCtrl {
 
 		System.out.println(boxesService.getAllBoxes());
 //	    	mv = new ModelAndView("login");
-//	    	mv.addObject("status","success");
-//	    	mv.addObject("boxesList",boxesService.getAllBoxes());
+	    	mv.addObject("status","success");
+	    	mv.addObject("boxesList",boxesService.getAllBoxes());
 		return mv;
 	}
 
@@ -40,9 +55,10 @@ public class BoxesCtrl {
 		HttpSession session = request.getSession();
 
 		System.out.println(boxesService.getBoxesById(boxId));
-//	    	mv = new ModelAndView("login");
-//	    	mv.addObject("status","success");
-//	    	mv.addObject("boxesList",boxesService.getBoxesById(boxId));
+		//添加你所想要添加的html
+	    	mv = new ModelAndView("login");
+	    	mv.addObject("status","success");
+	    	mv.addObject("boxes",boxesService.getBoxesById(boxId));
 		return mv;
 	}
 

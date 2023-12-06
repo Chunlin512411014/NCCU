@@ -29,7 +29,7 @@ public class LoginCtrl {
 		ModelAndView mv = null;
 		Users user = usersJpaRepository.findById(1).get();
 		mv = new ModelAndView("thymeleaf_hello_world");
-		mv.addObject("message","我來拉世界");
+		mv.addObject("message","hello world");
 		mv.addObject("user",user);
 		
 		return mv;		
