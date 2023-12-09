@@ -21,7 +21,7 @@ public class EasyPodLib
 
     public void Create_Card(string no, string name, DateTime applydate, int credit)
     {
-        //var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, ConvertStringToByteArray(no));
+        var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, ConvertStringToByteArray(no));
         var sNm = write_rfid_value(adrNm.st, adrNm.bk, adrNm.ab, loadKey, ConvertStringToByteArray(name));
         var sAd = write_rfid_value(adrAd.st, adrAd.bk, adrAd.ab, loadKey, ConvertStringToByteArray(applydate.ToShortDateString()));
         var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, ConvertStringToByteArray(credit.ToString()));
