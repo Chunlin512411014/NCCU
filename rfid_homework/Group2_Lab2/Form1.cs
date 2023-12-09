@@ -186,7 +186,7 @@ namespace WindowsFormsApplication6
                 txtMemberNo_Issue.Text = "";
                 txtMemberName_Issue.Text = "";
                 txtMemberApplyDate_Issue.Text = "";
-                txtMemberApplyDate_Issue.Text = "";
+                txtMemberCredit_Issue.Text = "";
                 MessageBox.Show("清空完成");
             }
             catch (Exception ex)
@@ -233,7 +233,7 @@ namespace WindowsFormsApplication6
             try
             {
                 var result = easyPodLib.Charge_Card(credit_plus);
-                MessageBox.Show("儲值:" + result.credit_plus + "; 可用餘額:" + result.credit_after);
+                MessageBox.Show(result.msg);
             }
             catch (Exception ex)
             {
@@ -247,7 +247,6 @@ namespace WindowsFormsApplication6
         /// <param name="e"></param>
         private void btnConsume_Click(object sender, EventArgs e)
         {
-            
             #region // validation
             int credit_plus = 0;
             if (!int.TryParse(txtMemberCredit_Consume.Text, out credit_plus))
@@ -259,26 +258,10 @@ namespace WindowsFormsApplication6
                 MessageBox.Show("點數不得<=0, " + txtMemberCredit_Consume.Text); return;
             }
             #endregion
-            
             try
             {
-                string autoChargeMessage = "";
-                #region//加分題, 自動儲值
-                int autoChargeCredit = 2000;//自動加值金額
-                int autoChargeRounds = 0;//自動加值次數
-                while (easyPodLib.Read_Card().credit - credit_plus <= 0)
-                {
-                    autoChargeRounds++;
-                    var autoChargeResult = easyPodLib.Charge_Card(autoChargeCredit);
-                }
-                if (autoChargeRounds > 0)
-                {
-                    autoChargeMessage += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds +" (共"+(autoChargeCredit* autoChargeRounds) +")"+ Environment.NewLine;
-                }
-                #endregion
-
-                var result = easyPodLib.Charge_Card(credit_plus * -1);
-                MessageBox.Show(autoChargeMessage + "消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
+                var result = easyPodLib.Consume_Card(credit_plus );
+                MessageBox.Show(result.msg);
             }
             catch (Exception ex)
             {

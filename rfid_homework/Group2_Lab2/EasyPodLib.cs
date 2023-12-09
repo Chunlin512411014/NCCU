@@ -41,13 +41,32 @@ public class EasyPodLib
         var byteCt = ConvertHexStringToByteArray(read_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey));
         return (ConvertByteArrayToString(byteNo), ConvertByteArrayToString(byteNm), Convert.ToDateTime(ConvertByteArrayToString(byteAd)), int.Parse(ConvertByteArrayToString(byteCt)));
     }
-    public (int credit_after, int credit_plus) Charge_Card(int credit_plus)
+    public (int credit_after, int credit_plus, string msg) Charge_Card(int credit_plus)
     {
         var byteCt = ConvertHexStringToByteArray(read_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey));
         int credit_before = int.Parse(ConvertByteArrayToString(byteCt));
         int credit_after = credit_before + credit_plus;
         var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, ConvertStringToByteArray(credit_after.ToString()));
-        return (credit_after, credit_plus);
+        return (credit_after, credit_plus, @"儲值:" + credit_plus + "; 可用餘額:" + credit_after);
+    }
+    public (int credit_after, int credit_plus, string msg) Consume_Card(int credit_plus)
+    {
+        string autoChargeMessage = "";
+        #region//加分題, 自動儲值
+        int autoChargeCredit = 2000;//自動加值金額
+        int autoChargeRounds = 0;//自動加值次數
+        while (Read_Card().credit - credit_plus <= 0)
+        {
+            autoChargeRounds++;
+            var autoChargeResult = Charge_Card(autoChargeCredit);
+        }
+        if (autoChargeRounds > 0)
+        {
+            autoChargeMessage += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds + " (共" + (autoChargeCredit * autoChargeRounds) + ")" + Environment.NewLine;
+        }
+        #endregion
+        var result = Charge_Card(credit_plus * -1);
+        return (result.credit_after, result.credit_plus, autoChargeMessage + result.msg);
     }
     public unsafe String read_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key)
     {
