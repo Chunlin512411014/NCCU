@@ -63,7 +63,9 @@ public class EasyPodLib
         }
         if (autoChargeRounds > 0)
         {
-            msg += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds + " (共" + (autoChargeCredit * autoChargeRounds) + ")" + Environment.NewLine;
+            msg += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + 
+                "自動加值:" + autoChargeCredit + 
+                "  次數:" + autoChargeRounds + " (共" + (autoChargeCredit * autoChargeRounds) + ")" + Environment.NewLine;
         }
         #endregion
         var byteCt = ConvertHexStringToByteArray(read_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey));
