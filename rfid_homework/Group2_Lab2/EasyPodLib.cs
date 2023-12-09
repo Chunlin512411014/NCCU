@@ -21,7 +21,7 @@ public class EasyPodLib
 
     public void Create_Card(string no, string name, DateTime applydate, int credit)
     {
-        var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, ConvertStringToByteArray(no));
+        //var sNo = write_rfid_value(adrNo.st, adrNo.bk, adrNo.ab, loadKey, ConvertStringToByteArray(no));
         var sNm = write_rfid_value(adrNm.st, adrNm.bk, adrNm.ab, loadKey, ConvertStringToByteArray(name));
         var sAd = write_rfid_value(adrAd.st, adrAd.bk, adrAd.ab, loadKey, ConvertStringToByteArray(applydate.ToShortDateString()));
         var sCt = write_rfid_value(adrCt.st, adrCt.bk, adrCt.ab, loadKey, ConvertStringToByteArray(credit.ToString()));
@@ -186,8 +186,8 @@ public class EasyPodLib
     }
     public byte[] ConvertStringToByteArray(string text)
     {
-        // 使用 ASCII 編碼將字符串轉換成 byte[]
-        byte[] byteArray = Encoding.ASCII.GetBytes(text);
+        // 使用 UTF8 編碼將字符串轉換成 byte[]
+        byte[] byteArray = Encoding.UTF8.GetBytes(text);
         // 如果長度小於16，則補零
         if (byteArray.Length < 16)
         {
@@ -199,8 +199,8 @@ public class EasyPodLib
     }
     public string ConvertByteArrayToString(byte[] byteArray)
     {
-        // 使用 ASCII 解碼將 byte[] 轉換成字符串
-        string resultString = Encoding.ASCII.GetString(byteArray);
+        // 使用 UTF8 解碼將 byte[] 轉換成字符串
+        string resultString = Encoding.UTF8.GetString(byteArray);
         // 去除尾部的零
         resultString = resultString.TrimEnd('\0');
         return resultString;
