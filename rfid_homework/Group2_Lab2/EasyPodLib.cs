@@ -4,6 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 public class EasyPodLib
 {
@@ -54,32 +55,26 @@ public class EasyPodLib
         UInt32 uiLength, uiRead, uiResult, uiWritten;
         byte[] ReadBuffer = new byte[0x40];
         byte[] WriteBuffer = build_cmd(sector, block, keyAB, key);
-
+       
         byte[] sResponse = null;
         sResponse = new byte[21];
-
         EasyPOD.VID = 0xe6a;
         EasyPOD.PID = 0x317;
         Index = 1;
         uiLength = 64;
-
         String resultStr = "";
-
+        
         fixed (MW_EasyPOD* pPOD = &EasyPOD)
         {
-
             dwResult = PODfuncs.ConnectPOD(pPOD, Index);
-
             if ((dwResult != 0))
             {
                 throw new Exception("Not connected yet");
-                //MessageBox.Show("Not connected yet");
             }
             else
             {
                 EasyPOD.ReadTimeOut = 200;
                 EasyPOD.WriteTimeOut = 200;
-
                 dwResult = PODfuncs.WriteData(pPOD, WriteBuffer, Convert.ToUInt32(WriteBuffer.Length), &uiWritten);    //Send a request command to reader
                 uiResult = PODfuncs.ReadData(pPOD, ReadBuffer, uiLength, &uiRead);  //Read the response data from reader
 
@@ -89,11 +84,9 @@ public class EasyPodLib
             dwResult = PODfuncs.ClearPODBuffer(pPOD);
             dwResult = PODfuncs.DisconnectPOD(pPOD);
         }
-
         return resultStr;
     }
    
-
     unsafe public String write_rfid_value(UInt16 sector, UInt16 block, String keyAB, String key, byte[] val)
     {
         UInt32 dwResult, Index;
@@ -101,7 +94,6 @@ public class EasyPodLib
         byte[] ReadBuffer = new byte[0x40];
         byte[] WriteBuffer = build_write_cmd(sector, block, keyAB, key);
         WriteBuffer = WriteBuffer.Concat((val)).ToArray();
-
         byte[] sResponse = null;
         sResponse = new byte[21];
 
@@ -109,7 +101,6 @@ public class EasyPodLib
         EasyPOD.PID = 0x317;
         Index = 1;
         uiLength = 64;
-
         String resultStr = "";
 
         fixed (MW_EasyPOD* pPOD = &EasyPOD)
@@ -146,7 +137,7 @@ public class EasyPodLib
         for (int i = 0; i < key.Length; i += 2)
             key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
 
-        // build up command
+        // build up read command
         byte[] WriteBuffer = new byte[] {
             0x2,  // STX
             0xA,  // LEN
@@ -172,7 +163,7 @@ public class EasyPodLib
         for (int i = 0; i < key.Length; i += 2)
             key_bytes[i / 2] = Convert.ToByte(key.Substring(i, 2), 16);
 
-        // build up command
+        // build up write command
         byte[] WriteBuffer = new byte[] {
             0x2,  // STX
             0x1A,  // LEN
@@ -195,9 +186,8 @@ public class EasyPodLib
     }
     public byte[] ConvertStringToByteArray(string text)
     {
-        // 使用 UTF-8 編碼將字符串轉換成 byte[]
-        byte[] byteArray = Encoding.UTF8.GetBytes(text);
-
+        // 使用 ASCII 編碼將字符串轉換成 byte[]
+        byte[] byteArray = Encoding.ASCII.GetBytes(text);
         // 如果長度小於16，則補零
         if (byteArray.Length < 16)
         {
@@ -205,17 +195,14 @@ public class EasyPodLib
             Array.Copy(byteArray, paddedArray, byteArray.Length);
             return paddedArray;
         }
-
         return byteArray;
     }
     public string ConvertByteArrayToString(byte[] byteArray)
     {
-        // 使用 UTF-8 解碼將 byte[] 轉換成字符串
-        string resultString = Encoding.UTF8.GetString(byteArray);
-
+        // 使用 ASCII 解碼將 byte[] 轉換成字符串
+        string resultString = Encoding.ASCII.GetString(byteArray);
         // 去除尾部的零
         resultString = resultString.TrimEnd('\0');
-
         return resultString;
     }
     
@@ -229,6 +216,18 @@ public class EasyPodLib
         }
         return byteArray;
     }
+    public bool ValidateHexString(string input)
+    {
+        // 定義期望的 HEX 字串格式
+        string expectedFormat = @"^([0-9A-Fa-f]{2}\s){19}[0-9A-Fa-f]{2}$";
+
+        // 使用正則表達式進行匹配
+        Regex regex = new Regex(expectedFormat);
+        Match match = regex.Match(input);
+
+        return match.Success;
+    }
+
 }
 
 public struct AddressStruct

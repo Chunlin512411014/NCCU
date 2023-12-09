@@ -23,6 +23,7 @@ namespace WindowsFormsApplication6
         {
             txtLoadkey.Text = key;
             txtMemberApplyDate_Issue.Text = DateTime.Now.ToShortDateString();
+            /*
             string val = "王1";
             var ss = val.ToCharArray();
             var s1 = Encoding.UTF8.GetBytes("王");
@@ -54,6 +55,7 @@ namespace WindowsFormsApplication6
 
                 Console.WriteLine(BitConverter.ToString(sxx));
             }
+            */
         }
         private void btnReaddata_Click(object sender, EventArgs e)
         {
@@ -103,6 +105,9 @@ namespace WindowsFormsApplication6
                 if (string.IsNullOrEmpty(txtWriteHexData.Text))
                 {
                     MessageBox.Show("文字必填"); return;
+                }
+                if( !easyPodLib.ValidateHexString(txtWriteHexData.Text)){
+                    MessageBox.Show("格式不符合HEX"); return;
                 }
                 #endregion
                 //txtWriteHexData.text = 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -257,7 +262,7 @@ namespace WindowsFormsApplication6
             
             try
             {
-                string message = "";
+                string autoChargeMessage = "";
                 #region//加分題, 自動儲值
                 int autoChargeCredit = 2000;//自動加值金額
                 int autoChargeRounds = 0;//自動加值次數
@@ -268,12 +273,12 @@ namespace WindowsFormsApplication6
                 }
                 if (autoChargeRounds > 0)
                 {
-                    message += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds +"(共"+(autoChargeCredit* autoChargeRounds) +")"+ Environment.NewLine;
+                    autoChargeMessage += "由於您的紅利點數不足, 系統幫您自動加值!" + Environment.NewLine + "自動加值:" + autoChargeCredit + "  次數:" + autoChargeRounds +" (共"+(autoChargeCredit* autoChargeRounds) +")"+ Environment.NewLine;
                 }
                 #endregion
 
                 var result = easyPodLib.Charge_Card(credit_plus * -1);
-                MessageBox.Show(message + "消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
+                MessageBox.Show(autoChargeMessage + "消費:" + Math.Abs(result.credit_plus) + "; 可用餘額:" + result.credit_after);
             }
             catch (Exception ex)
             {
