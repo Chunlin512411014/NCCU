@@ -88,18 +88,6 @@
         console.error('Failed to fetch user name.');
       }
     });
-
-    $('#profileLink').click(function () {
-      const userEmail = '${user.email}';  // 使用模板字串將用戶的電子郵件放入
-      const userName = $(this).data('user-name');  // 使用 data 屬性獲取用戶名稱
-      const userRole = $(this).data('user-role');  // 使用 data 屬性獲取用戶角色
-
-      // 將用戶資訊設定為 URL 參數
-      const profileUrl = `profile.html?userEmail=${userEmail}&userName=${userName}&userRole=${userRole}`;
-
-      // 導向到 profile.html
-      window.location.href = profileUrl;
-    });
   });  
 
 
