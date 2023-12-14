@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Box Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5" th:fragment="content">
+  <h2 class="mb-4">Box Detail</h2>
+
+  <!-- 表單開始 -->
+  <form action="#" method="post" th:object="${box}" th:action="@{/box/update}">
+    <div class="mb-3">
+      <label for="name" class="form-label">名稱:</label>
+      <input type="text" class="form-control" id="name" th:field="*{name}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">地點:</label>
+      <!-- 下拉式選單 -->
+      <select class="form-select" id="location" th:field="*{location}" required>
+        <option value="台北車站">台北車站</option>
+        <option value="新竹車站">新竹車站</option>
+        <option value="嘉義車站">嘉義車站</option>
+        <!-- 添加更多地點選項 -->
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="reservationTime" class="form-label">預約時間:</label>
+      <input type="datetime-local" class="form-control" id="reservationTime" th:field="*{reservationTime}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="expiryTime" class="form-label">到期時間:</label>
+      <input type="datetime-local" class="form-control" id="expiryTime" th:field="*{expiryTime}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="receiver" class="form-label">取貨方:</label>
+      <!-- 下拉式選單，迭代後端提供的使用者清單 -->
+      <select class="form-select" id="receiver" th:field="*{receiver}" required>
+        <option th:each="user : ${users}" th:if="${user.role == 'receiver'}" th:value="${user.id}" th:text="${user.name}"></option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">確定</button>
+    </div>
+  </form>
+  <!-- 表單結束 -->
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
