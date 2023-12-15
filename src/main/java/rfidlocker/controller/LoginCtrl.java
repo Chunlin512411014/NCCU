@@ -58,13 +58,13 @@ public class LoginCtrl {
 	    @RequestMapping(value = "/api/user-login", method = {RequestMethod.GET, RequestMethod.POST})
 	    public ModelAndView userLogin(HttpServletRequest request) {
 	    	ModelAndView mv ;
-	    	System.out.println(request.getParameter("username"));
+	    	System.out.println(request.getParameter("userEmail"));
 	    	System.out.println(request.getParameter("password"));
 	    	
 	    	HttpSession session = request.getSession();
 //	    	SessionUtil.setSessionId(session);
 //	    	SessionUtil.setSessionMap(session);
-	    	Users users = usersJpaRepository.findByEmailAndPassword(request.getParameter("email"), request.getParameter("password")).orElse(null);
+	    	Users users = usersJpaRepository.findByEmailAndPassword(request.getParameter("userEmail"), request.getParameter("password")).orElse(null);
 	    	
 	    	if(users == null) {
 					mv = new ModelAndView(new RedirectView("login"));
