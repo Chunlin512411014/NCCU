@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,55 +16,22 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        const taiwanMap = {
-            taipei: { lat: 25.0478, lng: 121.5319 },
-            newTaipei: { lat: 25.0163, lng: 121.4625 },
-            taoyuan: { lat: 25.012, lng: 121.2213 },
-            hsinchu: { lat: 24.8015, lng: 120.971 },
-            chiayi: { lat: 23.4815, lng: 120.4473 },
-            kaohsiung: { lat: 22.6394, lng: 120.3023 },
-            taichung: { lat: 24.1477, lng: 120.6736 }
-        };
+        // 使用 Thymeleaf 取得後端傳遞的座標資訊和座標名稱
+        const latitude = /*[[${latitude}]]*/ 23.6978;
+        const longitude = /*[[${longitude}]]*/ 120.9605;
+        const locationName = /*[[${locationName}]]*/ 'Default Location';
 
-        const map = L.map('map').setView([23.6978, 120.9605], 7);
+        // 創建地圖
+        const map = L.map('map').setView([latitude, longitude], 7);
 
+        // 設置地圖圖層
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // 在地圖上標示台北火車站
-        L.marker(taiwanMap.taipei).addTo(map)
-            .bindPopup('Taipei Train Station')
-            .openPopup();
-
-        // 在地圖上標示新北火車站
-        L.marker(taiwanMap.newTaipei).addTo(map)
-            .bindPopup('New Taipei Train Station')
-            .openPopup();
-
-        // 在地圖上標示桃園火車站
-        L.marker(taiwanMap.taoyuan).addTo(map)
-            .bindPopup('Taoyuan Train Station')
-            .openPopup();
-
-        // 在地圖上標示新竹火車站
-        L.marker(taiwanMap.hsinchu).addTo(map)
-            .bindPopup('Hsinchu Train Station')
-            .openPopup();
-
-        // 在地圖上標示嘉義火車站
-        L.marker(taiwanMap.chiayi).addTo(map)
-            .bindPopup('Chiayi Train Station')
-            .openPopup();
-
-        // 在地圖上標示高雄火車站
-        L.marker(taiwanMap.kaohsiung).addTo(map)
-            .bindPopup('Kaohsiung Train Station')
-            .openPopup();
-
-        // 在地圖上標示台中火車站
-        L.marker(taiwanMap.taichung).addTo(map)
-            .bindPopup('Taichung Train Station')
+        // 在地圖上加入標記
+        L.marker([latitude, longitude]).addTo(map)
+            .bindPopup(locationName)
             .openPopup();
     </script>
 </body>
