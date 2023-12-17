@@ -7,16 +7,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import rfidlocker.service.BoxesService;
 import rfidlocker.service.RfidService;
 
 @CrossOrigin
 @Controller
+@Slf4j
 public class RfidController {
 
+	@Autowired
+	BoxesService boxesService;
 	@Autowired
 	RfidService rfidService;
 
@@ -69,6 +73,23 @@ public class RfidController {
 		
 
 //		return null;
+
+	}
+	
+	@GetMapping(value = "/rfid/door/{boxNo}/{isLock}")
+	public ResponseEntity<?> updateBoxesDoorStatus(@PathVariable Integer boxNo, @PathVariable String isLock,
+			HttpServletRequest request) {
+		try {
+			boxesService.modifyBoxesDoorStatus(boxNo, isLock);
+//			return new ResponseEntity<>(access, HttpStatus.OK);
+			System.out.println("完成");
+		} catch (Exception e) {
+//			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
+			System.out.println();
+			log.info("boxes door status error");
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+
 
 	}
 

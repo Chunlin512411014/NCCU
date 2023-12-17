@@ -14,10 +14,13 @@ public class Boxes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	Integer id;
+	Integer boxNo;
 	String name;
 	String location;
 	String status;
 	LocalDateTime useTime;
 	LocalDateTime createdTime;
-	
+	String longitude;
+	String latitude;
+	Boolean isLock;
 }

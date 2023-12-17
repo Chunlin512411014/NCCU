@@ -56,9 +56,9 @@ public class BoxesCtrl {
 
 		System.out.println(boxesService.getBoxesById(boxId));
 		//添加你所想要添加的html
-	    	mv = new ModelAndView("login");
+	    	mv = new ModelAndView("box-detail");
 	    	mv.addObject("status","success");
-	    	mv.addObject("boxes",boxesService.getBoxesById(boxId));
+	    	mv.addObject("box",boxesService.getBoxesById(boxId));
 		return mv;
 	}
 

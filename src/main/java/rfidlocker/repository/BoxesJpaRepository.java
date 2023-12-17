@@ -11,5 +11,6 @@ public interface BoxesJpaRepository extends JpaRepository<Boxes,Integer>{
 	
 	List<Boxes> findAll();
 	Optional<Boxes> findByName(String name);
+	Optional<Boxes> findByBoxNo(Integer boxNo);
 
 }

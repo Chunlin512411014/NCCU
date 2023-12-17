@@ -59,4 +59,16 @@ public class BoxesServiceImpl implements BoxesService {
 		return boxes;
 	}
 
+	@Override
+	public void modifyBoxesDoorStatus(Integer boxNo, String isLock) {
+		Boxes boxes = boxesJpaRepository.findByBoxNo(boxNo).orElseThrow(()->new IllegalStateException("box不存在"));
+		if("Y".equals(isLock)) {
+			boxes.setIsLock(true);
+		}else {
+			boxes.setIsLock(false);
+		}
+		boxesJpaRepository.save(boxes);
+		log.info("box : "+boxes.getName()+"是否上鎖 : "+boxes.getIsLock());
+	}
+
 }

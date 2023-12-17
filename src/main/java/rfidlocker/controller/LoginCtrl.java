@@ -1,21 +1,22 @@
 package rfidlocker.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import rfidlocker.entity.Boxes;
 import rfidlocker.entity.Users;
 import rfidlocker.repository.UsersJpaRepository;
-import rfidlocker.utils.SessionUtil;
+import rfidlocker.service.BoxesService;
 
 @CrossOrigin
 @Controller
@@ -23,6 +24,8 @@ public class LoginCtrl {
 	
 	@Autowired 
 	UsersJpaRepository usersJpaRepository;
+	@Autowired
+	BoxesService boxesService;
 	
 	@GetMapping(value ="/login-test" )
 	public ModelAndView getHelloWorld(HttpServletRequest request) {
@@ -43,12 +46,12 @@ public class LoginCtrl {
 	    	ModelAndView mv = null;
 	    	HttpSession session = request.getSession();
 	    	if (session.getAttribute("userId") != null) {
-	    		
-	    		mv = new ModelAndView(new RedirectView("user-login"));
+	    		System.out.println("有觸發？");
+	    		mv = new ModelAndView(new RedirectView("index"));
 				return mv;		
 
 	    	}
-	  
+	    	System.out.println("開始轉導");
 	    	mv = new ModelAndView("login");
 	    	return mv;
 	    }
@@ -65,7 +68,7 @@ public class LoginCtrl {
 //	    	SessionUtil.setSessionId(session);
 //	    	SessionUtil.setSessionMap(session);
 	    	Users users = usersJpaRepository.findByEmailAndPassword(request.getParameter("userEmail"), request.getParameter("password")).orElse(null);
-	    	
+	    	List<Boxes> boxes = boxesService.getAllBoxes();
 	    	if(users == null) {
 					mv = new ModelAndView(new RedirectView("login"));
 		    		mv.addObject("status","error");
@@ -74,9 +77,9 @@ public class LoginCtrl {
 	    	}else {
 	    		session.setAttribute("userName", users.getName());    	
 //	    		session.setAttribute("remoteAddr", request.getRemoteAddr());
-    			mv = new ModelAndView(new RedirectView("home-page"));
+    			mv = new ModelAndView("box-list");
 	    		mv.addObject("status","success");
-	    		mv.addObject("user",users);
+	    		mv.addObject("boxes",boxes);
 	    		return mv;
     		}
 
