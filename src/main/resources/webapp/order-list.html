@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+
+  <h2 class="mb-4 text-center">Order Box List</h2>
+
+  <!-- Upper Div -->
+  <div th:fragment="upper-div" class="mx-auto">
+    <h3 class="text-center">置貨 BOX 清單</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">BOX 名稱</th>
+          <th scope="col">BOX 位置</th>
+          <th scope="col">置貨方 Email</th>
+          <th scope="col">取貨方 Email</th>
+          <th scope="col">取貨狀態</th>
+          <th scope="col">是否完成取貨</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Thymeleaf loop to generate order box list -->
+        <tr th:each="orderBox : ${orderBoxList}">
+          <td th:text="${orderBox.name}">中正大學工學院BOX</td>
+          <td th:text="${orderBox.location}">中正大學工學院</td>
+          <td th:text="${orderBox.supplierEmail}">user-A@example.com</td>
+          <td th:text="${orderBox.recipientEmail}">user-b@example.com</td>
+          <td th:text="${orderBox.status}">貨物放置中</td>
+          <td>
+            <!-- Button or actions -->
+            <button type="button" class="btn btn-primary" onclick="confirmActionSend('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 分隔線 -->
+  <div class="col-md-12">
+    <hr>
+  </div>
+
+  <!-- Lower Div -->
+  <div th:fragment="lower-div" class="mx-auto">
+    <h3 class="text-center">取貨 BOX 清單</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">BOX 名稱</th>
+          <th scope="col">BOX 位置</th>
+          <th scope="col">置貨方 Email</th>
+          <th scope="col">取貨方 Email</th>
+          <th scope="col">取貨狀態</th>
+          <th scope="col">是否完成取貨</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Thymeleaf loop to generate order box list -->
+        <tr th:each="orderBox : ${orderBoxList}">
+          <td th:text="${orderBox.name}">中正大學工學院 BOX</td>
+          <td th:text="${orderBox.location}">中正大學工學院</td>
+          <td th:text="${orderBox.supplierEmail}">user-A@example.com</td>
+          <td th:text="${orderBox.recipientEmail}">user-B@example.com</td>
+          <td th:text="${orderBox.status}">貨物放置中</td>
+          <td>
+            <!-- Button or actions -->
+            <button type="button" class="btn btn-primary" onclick="confirmActionReceiver('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container mb-5 text-center">
+    <a href="index.html" class="btn btn-primary">返回首頁</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+  function confirmActionSend(id, name, location, status, supplierEmail, recipientEmail) {
+    // Show a confirmation dialog
+    if (confirm('確認要取貨嗎？')) {
+      // If user confirms, send data to backend
+      const requestData = {
+        id: id,
+        name: name,
+        location: location,
+        status: status,
+        supplierEmail: supplierEmail,
+        recipientEmail: recipientEmail
+      };
+
+     
+      fetch('/your-backend-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle response from the backend if needed
+        console.log(data);
+        alert('取貨成功！');
+      })
+      .catch(error => {
+        // Handle error
+        console.error('Error:', error);
+        alert('無法確認取貨資訊！');
+      });
+    }
+  }
+
+
+  function confirmActionReceiver(id, name, location, status, supplierEmail, recipientEmail) {
+    // Show a confirmation dialog
+    if (confirm('確認要取貨嗎？')) {
+      // If user confirms, send data to backend
+      const requestData = {
+        id: id,
+        name: name,
+        location: location,
+        status: status,
+        supplierEmail: supplierEmail,
+        recipientEmail: recipientEmail
+      };
+
+     
+      fetch('/your-backend-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle response from the backend if needed
+        console.log(data);
+        alert('取貨成功！');
+      })
+      .catch(error => {
+        // Handle error
+        console.error('Error:', error);
+        alert('無法確認取貨資訊！');
+      });
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taiwan Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const taiwanMap = {
+            taipei: { lat: 25.0478, lng: 121.5319 },
+            hsinchu: { lat: 24.8015, lng: 120.971 },
+            chiayi: { lat: 23.4815, lng: 120.4473 },
+            kaohsiung: { lat: 22.6394, lng: 120.3023 },
+            taichung: { lat: 24.1477, lng: 120.6736 },
+            行政大樓: {lat: 23.561596, lng: 120.475562},
+            工學院一館: {lat: 23.56207, lng: 120.47790},
+            工學院二館: {lat: 23.56146, lng: 120.47834},
+            禮堂: {lat: 23.56138, lng: 120.47657},
+            管理學院: {lat: 23.56077, lng: 120.47585},
+            體育館: {lat: 23.56512, lng: 120.47354},
+            文學院: {lat: 23.56180, lng: 120.47406},
+            全家便利商店: {lat: 23.56086, lng: 120.47261},
+            宿舍: {lat: 23.56226, lng: 120.47053}
+        };
+
+        const map = L.map('map').setView([23.561596, 120.475562], 20);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 在地圖上標示台北火車站
+        addClickableMarker(taiwanMap.taipei, '台北火車站');
+        // 在地圖上標示新竹高鐵站
+        addClickableMarker(taiwanMap.hsinchu, '新竹高鐵站');
+        // 在地圖上標示台中火車站
+        addClickableMarker(taiwanMap.taichung, '台中火車站');
+        // 在地圖上標示嘉義火車站
+        addClickableMarker(taiwanMap.chiayi, 'Chiayi Train Station');
+        // 在地圖上標示高雄火車站
+        addClickableMarker(taiwanMap.kaohsiung, 'Kaohsiung Train Station');
+        //在地圖上標示行政大樓
+        addClickableMarker(taiwanMap.行政大樓, '行政大樓');
+        //在地圖上標示工學院一館
+        addClickableMarker(taiwanMap.工學院一館, '工學院一館');
+        //在地圖上標示工學院二館
+        addClickableMarker(taiwanMap.工學院二館, '工學院二館');
+        //在地圖上標示禮堂
+        addClickableMarker(taiwanMap.禮堂, '禮堂');
+        //在地圖上標示管理學院
+        addClickableMarker(taiwanMap.管理學院, '管理學院');
+        //在地圖上標示體育館
+        addClickableMarker(taiwanMap.體育館, '體育館');
+        //在地圖上標示文學院
+        addClickableMarker(taiwanMap.文學院, '文學院');
+        //在地圖上標示全家便利商店
+        addClickableMarker(taiwanMap.全家便利商店, '全家便利商店');
+        //在地圖上標示宿舍
+        addClickableMarker(taiwanMap.宿舍, '宿舍');
+
+
+        function addClickableMarker(coordinates, locationName) {
+            const marker = L.marker(coordinates).addTo(map);
+
+            const linkButton = document.createElement('a');
+            linkButton.href = `box-list.html?location=${encodeURIComponent(locationName)}`;
+            linkButton.innerHTML = `<button>${locationName} Box 清單</button>`;
+
+            marker.bindPopup(linkButton).openPopup();
+        }
+
+        function goToBoxList(locationName) {
+            window.parent.location.href = `box-list.html?location=${encodeURIComponent(locationName)}`;
+        }
+    </script>
+</body>
+</html>
