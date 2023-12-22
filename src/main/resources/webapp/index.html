@@ -5,32 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Remote Box</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+
+    header.bg-dark {
+      background-color: #343a40 !important;
+    }
+    
+    #sidebar .nav-link.active {
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      color: #FFD306; 
+    }
+  
+    h1 {
+      font-family: 'Roboto', sans-serif; 
+      font-weight: 700; 
+      color: #FFD306; 
+    }
+      
+    #sidebar {
+      background-color: #343a40 !important;
+    }
+  </style>
 </head>
 <body>
-
   <!-- Header -->
   <header class="bg-dark text-white text-center py-3">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#FFD306" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
-      </svg><h1>Remote Box</h1>
-      <script>
-        function updateUserDropdown(userName) {
-          const userDropdownText = document.getElementById('userDropdownText');
-          userDropdownText.textContent = userName;
-        }
-      </script> 
-      <!-- User Dropdown Button -->
-      <div class="btn-group">
-        <button class="btn btn-outline-light" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person"></i> <span id="userDropdownText">${user.email}</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#" id="profileLink" data-user-name="${user.name}" data-user-role="${user.role}">Profile</a></li>
-          <li><a class="dropdown-item" href="#" onclick="loadSettings('${user.email}')">Settings</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
-        </ul>
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#FFD306" class="bi bi-box-seam-fill" viewBox="0 0 16 16" style="margin-left: 50px;">
+          <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
+        </svg>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+        <h1>Sensor Locker</h1>
+        <div class="btn-group">
+          <button class="btn btn-outline-light" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person"></i> <span id="userDropdownText">${user.email}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#" id="profileLink" data-user-name="${user.name}" data-user-role="${user.role}">Profile</a></li>
+            <li><a class="dropdown-item" href="#" onclick="loadSettings('${user.email}')">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -43,18 +61,18 @@
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#box-mapall" onclick="loadContent('box-mapall.html')">
-                Box 地圖
+              <a class="nav-link active" href="#locker-map-all" onclick="loadContent('locker-map-all.html')">
+                Locker Map
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#box-listall" onclick="loadContent('box-listall.html')">
-                Box 清單
+              <a class="nav-link active" href="#locker-list-all" onclick="loadContent('locker-list-all.html')">
+                Locker List
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#order-list" onclick="loadContent('order-list.html')">
-                Box Order 清單
+              <a class="nav-link active" href="#order-list" onclick="loadContent('order-list.html')">
+                Locker Order
               </a>
             </li>
           </ul>
@@ -63,7 +81,9 @@
 
       <!-- Main Content -->
       <main id="main-content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <iframe id="content-iframe" src="box-mapall.html" frameborder="0" width="100%" height="700"></iframe>
+        <div class="container-fluid">
+          <iframe id="content-iframe" src="locker-map-all.html" frameborder="0" width="100%" height="700"></iframe>
+        </div>
       </main>
     </div>
   </div>
@@ -71,7 +91,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    // $(document).ready(function () {
+       // $(document).ready(function () {
     //   const userEmail = localStorage.getItem('userEmail');
     //   if (userEmail) {
     //     document.getElementById('userDropdownText').textContent = userEmail;
