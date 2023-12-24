@@ -59,15 +59,18 @@ public class RfidController {
 
 	/*
 	 * rfid 辨識 parameter 1. cardNo 2.boxId
+	 * 判斷此卡是否有效
 	 */
 
 	@GetMapping(value = "/rfid/{cardNo}/{boxId}")
 	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, @PathVariable Integer boxId,
 			HttpServletRequest request) {
+		
 		try {
-			String access = rfidService.checkCardNOAndBoxId(cardNo, boxId);
-			return new ResponseEntity<>(access, HttpStatus.OK);
+		String access = rfidService.checkCardNOAndBoxId(cardNo, boxId);
+		return new ResponseEntity<>(access, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
 		}
 		
@@ -76,16 +79,21 @@ public class RfidController {
 
 	}
 	
-	@GetMapping(value = "/rfid/door/{boxNo}/{isLock}")
-	public ResponseEntity<?> updateBoxesDoorStatus(@PathVariable Integer boxNo, @PathVariable String isLock,
+	/*
+	 * 門鎖感應器 現在是開或是關
+	 * 
+	 * */
+	@GetMapping(value = "/rfid/door/{boxId}/{isLock}")
+	public ResponseEntity<?> updateBoxesDoorStatus(@PathVariable Integer boxId, @PathVariable String isLock,
 			HttpServletRequest request) {
 		try {
-			boxesService.modifyBoxesDoorStatus(boxNo, isLock);
+			boxesService.modifyBoxesDoorStatus(boxId, isLock);
 //			return new ResponseEntity<>(access, HttpStatus.OK);
-			System.out.println("完成");
+			System.out.println("isLock :" +isLock);
 		} catch (Exception e) {
 //			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
 			System.out.println();
+			e.printStackTrace();
 			log.info("boxes door status error");
 		}
 		return new ResponseEntity<>(HttpStatus.OK);

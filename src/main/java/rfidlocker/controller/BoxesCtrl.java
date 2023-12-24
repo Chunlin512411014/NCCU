@@ -42,25 +42,80 @@ public class BoxesCtrl {
 		HttpSession session = request.getSession();
 
 		System.out.println(boxesService.getAllBoxes());
-//	    	mv = new ModelAndView("login");
+	    	mv = new ModelAndView("box-listall");
+	    	mv.addObject("status","success");
+	    	mv.addObject("boxes",boxesService.getAllBoxes());
+		return mv;
+	}
+	
+	// 取得所有box 地圖上的位置
+	@GetMapping(value = "/api/box-mapall")
+	public ModelAndView getAllBoxAtMAp(HttpServletRequest request) {
+		ModelAndView mv = null;
+		HttpSession session = request.getSession();
+
+		System.out.println(boxesService.getAllBoxes());
+	    	mv = new ModelAndView("box-mapall");
 	    	mv.addObject("status","success");
 	    	mv.addObject("boxesList",boxesService.getAllBoxes());
 		return mv;
 	}
 
+//	// 取得特定箱子
+//	@GetMapping(value = "/api/Boxes/{boxId}")
+//	public ModelAndView getAllBox(HttpServletRequest request, @PathVariable Integer boxId) {
+//		ModelAndView mv = null;
+//		HttpSession session = request.getSession();
+//
+//		System.out.println(boxesService.getBoxesById(boxId));
+//		//添加你所想要添加的html
+//	    	mv = new ModelAndView("box-detail");
+//	    	mv.addObject("status","success");
+//	    	mv.addObject("box",boxesService.getBoxesById(boxId));
+//		return mv;
+//	}
+	
 	// 取得特定箱子
 	@GetMapping(value = "/api/Boxes/{boxId}")
-	public ModelAndView getAllBox(HttpServletRequest request, @PathVariable Integer boxId) {
+	public ModelAndView getBox(HttpServletRequest request, @PathVariable Integer boxId) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 
 		System.out.println(boxesService.getBoxesById(boxId));
 		//添加你所想要添加的html
-	    	mv = new ModelAndView("box-detail");
+	    	mv = new ModelAndView("box-order");
 	    	mv.addObject("status","success");
 	    	mv.addObject("box",boxesService.getBoxesById(boxId));
 		return mv;
 	}
+	
+	// 取得特定箱子在map上的特定位置
+		@GetMapping(value = "/api/Boxes/{boxId}/location")
+		public ModelAndView getBoxlocationOnMapByBoxId(HttpServletRequest request, @PathVariable Integer boxId) {
+			ModelAndView mv = null;
+			HttpSession session = request.getSession();
+
+			System.out.println(boxesService.getBoxesById(boxId));
+			//添加你所想要添加的html
+		    	mv = new ModelAndView("box-map");
+		    	mv.addObject("status","success");
+		    	mv.addObject("box",boxesService.getBoxesById(boxId));
+			return mv;
+		}
+	
+	// 取得特定location 的boxes list
+		@GetMapping(value = "/api/Boxes/location/{location}")
+		public ModelAndView getBoxListByLocation(HttpServletRequest request, @PathVariable String location) {
+			ModelAndView mv = null;
+			HttpSession session = request.getSession();
+			System.out.println("loacation = "+location);
+			System.out.println(boxesService.getAllBoxesByloaction(location));
+			//添加你所想要添加的html
+		    	mv = new ModelAndView("box-list");
+		    	mv.addObject("status","success");
+		    	mv.addObject("boxes",boxesService.getAllBoxesByloaction(location));
+			return mv;
+		}
 
 	// 新增箱子
 	@PostMapping(value = "/api/Boxes")

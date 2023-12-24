@@ -1,5 +1,7 @@
 package rfidlocker.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import rfidlocker.entity.Appointment;
 import rfidlocker.entity.Boxes;
 import rfidlocker.entity.Users;
 import rfidlocker.model.Appointment.AppointmentDao;
+import rfidlocker.model.Appointment.OrderDao;
 import rfidlocker.repository.AppointmentJpaRepository;
 import rfidlocker.repository.BoxesJpaRepository;
 import rfidlocker.repository.UsersJpaRepository;
@@ -59,18 +62,75 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<Appointment> findAllBySellerId(Integer userId) {
-		Users user = usersJpaRepository.findById(userId).orElseThrow(() -> new IllegalStateException("買家不存在"));
+	public List<OrderDao> findAllBySellerId(Integer userId) {
+		//我是賣家
+		Users seller = usersJpaRepository.findById(userId).orElseThrow(() -> new IllegalStateException("賣家不存在"));
 		List<Appointment> appointmentList = appointmentJpaRepository.findAllBySellerId(userId);
-
-		return appointmentList;
+		List<OrderDao> orderDaoList = new ArrayList<>();
+		
+		appointmentList.forEach(n->{
+			OrderDao orderDao = new OrderDao();
+			Boxes boxes = boxesJpaRepository.findById(n.getBoxId()).get();
+			Users buyer = usersJpaRepository.findById(n.getBuyerId()).orElseThrow(() -> new IllegalStateException("賣家不存在"));
+			orderDao.setAppointmentId(n.getId());
+			orderDao.setBoxId(n.getBoxId());
+			orderDao.setBoxName(boxes.getName());
+			orderDao.setLocation(boxes.getLocation());
+			orderDao.setSupplierEmail(seller.getEmail());
+			orderDao.setRecipientEmail(buyer.getEmail());
+			System.out.println("取貨狀態碼 = "+n.getStatus());
+			switch(n.getStatus()) {
+			case 1 :
+				orderDao.setStatus("未到貨");
+				break;
+			case 2 :
+				orderDao.setStatus("已到貨");
+				break;
+			case 3 :
+				orderDao.setStatus("完成");
+				break;
+			}
+			orderDaoList.add(orderDao);
+			
+		});
+		
+		return orderDaoList;
 	}
 
 	@Override
-	public List<Appointment> findAllByBuyerId(Integer userId) {
-		Users user = usersJpaRepository.findById(userId).orElseThrow(() -> new IllegalStateException("買家不存在"));
+	public List<OrderDao> findAllByBuyerId(Integer userId) {
+		List<OrderDao> orderDaoList = new ArrayList<>();
+		//我是買家
+		Users buyer = usersJpaRepository.findById(userId).orElseThrow(() -> new IllegalStateException("買家不存在"));
 		List<Appointment> appointmentList = appointmentJpaRepository.findAllByBuyerId(userId);
-		return appointmentList;
+		
+		appointmentList.forEach(n->{
+			OrderDao orderDao = new OrderDao();
+			Boxes boxes = boxesJpaRepository.findById(n.getBoxId()).get();
+			Users seller = usersJpaRepository.findById(n.getSellerId()).orElseThrow(() -> new IllegalStateException("賣家不存在"));
+			orderDao.setAppointmentId(n.getId());
+			orderDao.setBoxId(n.getBoxId());
+			orderDao.setBoxName(boxes.getName());
+			orderDao.setLocation(boxes.getLocation());
+			orderDao.setSupplierEmail(seller.getEmail());
+			orderDao.setRecipientEmail(buyer.getEmail());
+			
+			switch(n.getStatus()) {
+			case 1 :
+				orderDao.setStatus("未到貨");
+				break;
+			case 2 :
+				orderDao.setStatus("已到貨");
+				break;
+			case 3 :
+				orderDao.setStatus("完成");
+				break;
+			}
+			orderDaoList.add(orderDao);
+			
+		});
+		
+		return orderDaoList;
 	}
 
 	@Override
@@ -122,6 +182,44 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		
 		
+	}
+
+	@Override
+	public Appointment addAppointment(HttpServletRequest request , Integer boxId, LocalDateTime reservationTime, LocalDateTime expiryTime,
+			String receiverEmail) {
+		try {
+			HttpSession session = request.getSession();
+			Boxes boxes = boxesJpaRepository.findById(boxId)
+					.orElseThrow(() -> new IllegalStateException("box不存在"));
+			if (!"A".equals(boxes.getStatus()))
+				throw new IllegalStateException("box已經有人使用");
+			
+			Users seller = usersJpaRepository.findById((Integer)session.getAttribute("userId"))
+					.orElseThrow(() -> new IllegalStateException("賣家不存在"));
+
+			Users buyer = usersJpaRepository.findByEmail(receiverEmail)
+					.orElseThrow(() -> new IllegalStateException("買家不存在"));
+			Appointment appointment = new Appointment();
+			appointment.setBoxId(boxId);
+			appointment.setBuyerId(buyer.getId());
+			appointment.setSellerId(seller.getId());
+			appointment.setStatus(1);
+//			appointment.setSellerStartTime(body.getSellerStartTime());
+//			appointment.setSellerEndTime(body.getSellerEndTime());
+//			appointment.setBuyerStartTime(body.getBuyerStartTime());
+//			appointment.setBuyerEndTime(body.getSellerEndTime());
+			appointment = appointmentJpaRepository.save(appointment);
+			boxes.setReservationTime(reservationTime);
+			boxes.setExpiryTime(expiryTime);
+			boxes.setStatus("UA");
+			boxesJpaRepository.save(boxes);
+			
+			return appointment;
+			
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

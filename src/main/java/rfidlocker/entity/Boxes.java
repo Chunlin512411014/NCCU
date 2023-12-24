@@ -23,4 +23,8 @@ public class Boxes {
 	String longitude;
 	String latitude;
 	Boolean isLock;
-}
+	//預約時間
+	LocalDateTime reservationTime;
+	//到期時間
+	LocalDateTime expiryTime;
+} 

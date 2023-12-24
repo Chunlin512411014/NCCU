@@ -12,40 +12,42 @@
   <h2 class="mb-4">Box Order</h2>
 
   <!-- 表單開始 -->
-  <form action="#" method="post" th:object="${box}" th:action="@{/box/update}">
+  <form action="#" method="post" th:object="${box}" th:action="@{/api/appointment}">
     <div class="mb-3">
       <label for="name" class="form-label">名稱:</label>
       <!-- 使用 type="hidden" 讓名稱不可修改 -->
-      <input type="hidden" class="form-control" id="name" th:field="*{name}" required>
-      <!-- 顯示名稱的文字，用於提示使用者 -->
-      <p class="form-control-static" th:text="*{name}"></p>
+      <p class="form-control-static" th:text="${box.name}"></p>
+    <!--   <p class="form-control-static" th:text="${box.id}"></p> -->
+  	<!-- 使用 type="hidden" 讓名稱不可修改 -->
+	  <input type="hidden" class="form-control" id="boxId" name="boxId" th:value="${box.id}" required>
     </div>
 
     <div class="mb-3">
       <label for="location" class="form-label">地點:</label>
-      <select class="form-select" id="location" th:field="*{location}" required>
-        <option value="台北車站">台北車站</option>
-        <option value="新竹車站">新竹車站</option>
-        <option value="嘉義車站">嘉義車站</option>
-        <!-- 添加更多地點選項 -->
-      </select>
+      <p class="form-control-static" th:text="${box.location}"></p>
     </div>
 
     <div class="mb-3">
       <label for="reservationTime" class="form-label">預約時間:</label>
-      <input type="datetime-local" class="form-control" id="reservationTime" th:field="*{reservationTime}" required>
+      <input type="datetime-local" class="form-control" id="reservationTime" th:field="*{reservationTime}"  required>
     </div>
 
     <div class="mb-3">
       <label for="expiryTime" class="form-label">到期時間:</label>
       <input type="datetime-local" class="form-control" id="expiryTime" th:field="*{expiryTime}" required>
     </div>
-
-    <div class="mb-3">
+	<!-- 幫我變成輸入框 
+	  <input type="hidden" class="form-control" id="receiverEmail" th:field="*{receiverEmail}" required>
+	-->		
+   <!--  <div class="mb-3">
       <label for="receiver" class="form-label">取貨方:</label>
       <select class="form-select" id="receiver" th:field="*{receiver}" required>
         <option th:each="user : ${users}" th:if="${user.role == 'receiver'}" th:value="${user.id}" th:text="${user.name}"></option>
       </select>
+    </div> -->
+    <div class="mb-3">
+      <label for="receiver" class="form-label">取貨方:</label>
+     <input type="email" class="form-control" id="receiverEmail" name="receiverEmail" required>
     </div>
 
     <div class="text-center">

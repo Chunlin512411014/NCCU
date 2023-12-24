@@ -13,5 +13,6 @@ public interface AppointmentJpaRepository extends JpaRepository<Appointment,Inte
 	List<Appointment> findAllByBuyerId(Integer userId);
 	Optional<Appointment> findByBoxIdAndStatusIn(Integer boxId , List<Integer> statusList );
 	Optional<Appointment> findById(Integer appointmentId);
-	
+	Optional<Appointment> findByBoxIdAndStatus(Integer boxId ,Integer status );
+	Optional<Appointment> findByBoxId(Integer boxId  );
 }

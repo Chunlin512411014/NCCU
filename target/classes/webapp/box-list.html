@@ -33,23 +33,28 @@
         <tr th:each="box : ${boxes}">
           <td>
             <!-- 修改 box 名稱的連結 -->
-            <a th:href="@{'/box/detail/' + ${box.id}}"> 
+            <a th:href="@{'/api/Boxes/' + ${box.id}}"> 
               <span th:text="${box.name}"></span>
             </a>
           </td>
           <td>
-            <span class="badge" th:classappend="${box.status == 'In-use' ? 'inuse-status' : ''} ${box.status == 'Pending' ? 'pending-status' : ''} ${box.status == 'IDLE' ? 'completed-status' : 'default-status'}" th:text="${box.status}"></span>
+          <!--   <span class="badge" th:classappend="${box.status == 'In-use' ? 'inuse-status' : ''} ${box.status == 'Pending' ? 'pending-status' : ''} ${box.status == 'IDLE' ? 'completed-status' : 'default-status'}" th:text="${box.status}"></span> -->
+          	<!--  <span class="badge" th:classappend="${box.status == 'In-use' ? 'inuse-status' : ''} ${box.status == 'Pending' ? 'pending-status' : ''} ${box.status == 'IDLE' ? 'completed-status' : 'default-status'}" th:text="${box.status}"></span> -->
+							<span class="badge"
+							th:class="|${box.status == 'A' ? 'inuse-status' : ''} ${box.status == 'UA' ? 'pending-status' : ''} ${box.status == 'A' ? 'completed-status' : 'default-status'}|"
+							th:text="${box.status}"></span> <!-- 如果 box 狀態為 'Active'，則顯示 user id -->
+							<!--  <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span> -->
             <!-- 如果 box 狀態為 'Active'，則顯示 user id -->
             <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span>
           </td>
           <!-- 修改 box 位置的超連結，直接指向 box-map.html -->
           <td>
-            <a th:href="@{'box-map.html?locationName=' + ${box.location}}">
+            <a th:href="@{'/api/Boxes/' + ${box.id} + '/location'}">
             <button class="btn btn-link" type="button" th:text="${box.location}"></button>
             </a>
           </td>
-          <td th:text="${#dates.format(box.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td th:text="${#dates.format(box.expiryDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <!--   <td th:text="${#dates.format(box.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td> -->
+          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
         <!-- added a fake box1 -->
         <tr>
@@ -74,7 +79,7 @@
           </td>
           <td>
             <span class="badge bg-primary">In-use</span>
-            <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span>
+        <!--     <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span> -->
           </td>
           <td>
             <!-- 修改 box 位置的超連結，直接指向 box-map.html -->

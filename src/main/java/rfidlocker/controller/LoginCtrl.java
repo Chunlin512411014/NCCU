@@ -76,10 +76,17 @@ public class LoginCtrl {
 		    		return mv;
 	    	}else {
 	    		session.setAttribute("userName", users.getName());    	
+	    		session.setAttribute("userId", users.getId());    	
+	    		session.setAttribute("email", users.getEmail());    	
 //	    		session.setAttribute("remoteAddr", request.getRemoteAddr());
-    			mv = new ModelAndView("box-list");
+//    			mv = new ModelAndView("box-list");
+    			mv = new ModelAndView("index");
+    			
 	    		mv.addObject("status","success");
 	    		mv.addObject("boxes",boxes);
+	    		mv.addObject("user",users);
+	    		
+	    		
 	    		return mv;
     		}
 

@@ -31,12 +31,12 @@
       </thead>
       <tbody>
         <!-- Thymeleaf loop to generate order box list -->
-        <tr th:each="orderBox : ${orderBoxList}">
-          <td th:text="${orderBox.name}">中正大學工學院BOX</td>
-          <td th:text="${orderBox.location}">中正大學工學院</td>
-          <td th:text="${orderBox.supplierEmail}">user-A@example.com</td>
-          <td th:text="${orderBox.recipientEmail}">user-b@example.com</td>
-          <td th:text="${orderBox.status}">貨物放置中</td>
+        <tr th:each="sellerOrder : ${sellerList}">
+          <td th:text="${sellerOrder.boxName}">中正大學工學院BOX</td>
+          <td th:text="${sellerOrder.location}">中正大學工學院</td>
+          <td th:text="${sellerOrder.supplierEmail}">user-A@example.com</td>
+          <td th:text="${sellerOrder.recipientEmail}">user-b@example.com</td>
+          <td th:text="${sellerOrder.status}">貨物放置中</td>
           <td>
             <!-- Button or actions -->
             <button type="button" class="btn btn-primary" onclick="confirmActionSend('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
@@ -67,12 +67,12 @@
       </thead>
       <tbody>
         <!-- Thymeleaf loop to generate order box list -->
-        <tr th:each="orderBox : ${orderBoxList}">
-          <td th:text="${orderBox.name}">中正大學工學院 BOX</td>
-          <td th:text="${orderBox.location}">中正大學工學院</td>
-          <td th:text="${orderBox.supplierEmail}">user-A@example.com</td>
-          <td th:text="${orderBox.recipientEmail}">user-B@example.com</td>
-          <td th:text="${orderBox.status}">貨物放置中</td>
+        <tr th:each="buyerOrder : ${buyerList}">
+          <td th:text="${buyerOrder.boxName}">中正大學工學院 BOX</td>
+          <td th:text="${buyerOrder.location}">中正大學工學院</td>
+          <td th:text="${buyerOrder.supplierEmail}">user-A@example.com</td>
+          <td th:text="${buyerOrder.recipientEmail}">user-B@example.com</td>
+          <td th:text="${buyerOrder.status}">貨物放置中</td>
           <td>
             <!-- Button or actions -->
             <button type="button" class="btn btn-primary" onclick="confirmActionReceiver('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>

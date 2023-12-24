@@ -1,6 +1,9 @@
 package rfidlocker.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,15 +28,29 @@ public class AppointmentCtrl {
 
 	// 新增約會
 	@PostMapping(value = "/api/appointment")
-	public ModelAndView addAppointment(HttpServletRequest request, @RequestBody AppointmentDao body) {
+	public ModelAndView addAppointment(HttpServletRequest request , 
+			 @RequestParam(name = "boxId", required = true)  Integer boxId,
+			@RequestParam("reservationTime")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime reservationTime ,
+			@RequestParam("expiryTime")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime expiryTime ,
+			@RequestParam("receiverEmail") String receiverEmail) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 		try {
-
-			System.out.println(appointmentService.addAppointment(body));
-//	    	mv = new ModelAndView("login");
-//	    	mv.addObject("status","success");
-//	    	mv.addObject("boxesList",boxesService.getBoxesById(boxId));
+			System.out.println("boxId = " +boxId);
+			System.out.println(request.getSession().getAttribute("userId"));
+			System.out.println("reservationTime = " + reservationTime);
+			System.out.println(appointmentService.addAppointment(request,boxId,reservationTime,expiryTime,receiverEmail));
+			System.out.println("新增約會成功 !");
+			
+			Integer userId = (Integer)session.getAttribute("userId");
+			System.out.println("buyer list");
+			System.out.println(appointmentService.findAllByBuyerId(userId));
+			System.out.println("seller list");
+			System.out.println(appointmentService.findAllBySellerId(userId));
+		    	mv = new ModelAndView("order-list");
+		    	mv.addObject("status","success");
+		    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
+		    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
 		} catch (RuntimeException e) {
 			System.out.println(e);
 		}
@@ -49,10 +67,10 @@ public class AppointmentCtrl {
 		System.out.println(appointmentService.findAllByBuyerId(userId));
 		System.out.println("seller list");
 		System.out.println(appointmentService.findAllBySellerId(userId));
-//	    	mv = new ModelAndView("login");
-//	    	mv.addObject("status","success");
-//	    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
-//	    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
+	    	mv = new ModelAndView("order-list");
+	    	mv.addObject("status","success");
+	    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
+	    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
 		return mv;
 	}
 
