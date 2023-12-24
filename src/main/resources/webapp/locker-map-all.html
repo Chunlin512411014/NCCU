@@ -73,7 +73,7 @@
             const marker = L.marker(coordinates).addTo(map);
 
             const linkButton = document.createElement('a');
-            linkButton.href = `box-list.html?location=${encodeURIComponent(locationName)}`;
+            linkButton.href = `/api/Boxes/location/${encodeURIComponent(locationName)}`;
             linkButton.innerHTML = `<button>${locationName} Box 清單</button>`;
 
             marker.bindPopup(linkButton).openPopup();
