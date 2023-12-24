@@ -41,7 +41,7 @@
           </h3>
         </div>
         <div class="card-body">
-          <form th:action="@{/api/user-login}"  method="post" onsubmit="return handleLogin()">
+          <form th:action="@{/api/user-login}" th:object="${loginForm}" method="post" onsubmit="return handleLogin()">
             <div class="mb-3">
               <label for="userEmail" class="form-label">Email:</label>
               <input type="text" class="form-control" th:field="*{userEmail}" required>
