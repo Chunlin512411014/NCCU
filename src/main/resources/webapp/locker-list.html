@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locker List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .inuse-status { background-color: #28a745; color: #fff; }
+    .pending-status { background-color: #ffc107; color: #000; }
+    .completed-status { background-color: #007bff; color: #fff; }
+    .default-status { background-color: #6c757d; color: #fff; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5" th:fragment="content">
+  <h2 class="mb-4">Locker List</h2>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">名稱</th>
+          <th scope="col">狀態</th>
+          <th scope="col">位置</th>
+          <th scope="col">建立時間</th>
+          <th scope="col">到期時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 使用 thymeleaf 動態產出 box list -->
+        <tr th:each="box : ${boxes}">
+          <td>
+            <!-- 修改 box 名稱的連結 -->
+            <a th:href="@{'/box/detail/' + ${box.id}}"> 
+              <span th:text="${box.name}"></span>
+            </a>
+          </td>
+          <td>
+            <span class="badge" th:classappend="${box.status == 'In-use' ? 'inuse-status' : ''} ${box.status == 'Pending' ? 'pending-status' : ''} ${box.status == 'IDLE' ? 'completed-status' : 'default-status'}" th:text="${box.status}"></span>
+            <!-- 如果 box 狀態為 'Active'，則顯示 user id -->
+            <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span>
+          </td>
+          <!-- 修改 box 位置的超連結，直接指向 box-map.html -->
+          <td>
+            <a th:href="@{'box-map.html?locationName=' + ${box.location}}">
+            <button class="btn btn-link" type="button" th:text="${box.location}"></button>
+            </a>
+          </td>
+          <td th:text="${#dates.format(box.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td th:text="${#dates.format(box.expiryDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        <!-- added a fake box1 -->
+        <tr>
+          <td>
+            <!-- 修改 box 名稱的連結，並傳遞 box-id 資訊 -->
+            <a th:href="@{'/box/detail/1'}">行政大樓 Box 1</a>
+          </td>
+          <td>
+            <span class="badge bg-success">IDLE</span>
+          </td>
+          <td>
+            <button class="btn btn-link" type="button" onclick="行政大樓"></button>
+          </td>
+          <td>2023-12-12 12:00:00</td>
+          <td>2023-02-01 12:00:00</td>
+        </tr>
+        <!-- added a fake box2 -->
+        <tr>
+          <td>
+            <!-- 修改 box 名稱的連結，並傳遞 box-id 資訊 -->
+            <a th:href="@{'/box/detail/2'}">行政大樓 Box 2</a>
+          </td>
+          <td>
+            <span class="badge bg-primary">In-use</span>
+            <span th:if="${box.status == 'In-use' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span>
+          </td>
+          <td>
+            <!-- 修改 box 位置的超連結，直接指向 box-map.html -->
+            <a th:href="@{'box-map.html'}" class="btn btn-link">
+              行政大樓
+            </a>
+          </td>
+          <td>2023-12-12 12:00:00</td>
+          <td>2023-12-15 12:00:00</td>
+        </tr>
+</div>
+
+<!-- <div class="container mb-5 text-center">
+  <a href="index.html" class="btn btn-primary">返回首頁</a>
+</div> -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
