@@ -36,26 +36,26 @@ public class BoxesCtrl {
 	 * 
 	 * */
 	// 取得所有可選box
-	@GetMapping(value = "/api/Boxes")
+	@GetMapping(value = "/api/locker-list-all")
 	public ModelAndView getAllBox(HttpServletRequest request) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 
 		System.out.println(boxesService.getAllBoxes());
-	    	mv = new ModelAndView("box-listall");
+	    	mv = new ModelAndView("locker-list-all");
 	    	mv.addObject("status","success");
 	    	mv.addObject("boxes",boxesService.getAllBoxes());
 		return mv;
 	}
 	
 	// 取得所有box 地圖上的位置
-	@GetMapping(value = "/api/box-mapall")
+	@GetMapping(value = "/api/locker-map-all")
 	public ModelAndView getAllBoxAtMAp(HttpServletRequest request) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 
 		System.out.println(boxesService.getAllBoxes());
-	    	mv = new ModelAndView("box-mapall");
+	    	mv = new ModelAndView("locker-map-all");
 	    	mv.addObject("status","success");
 	    	mv.addObject("boxesList",boxesService.getAllBoxes());
 		return mv;
@@ -83,7 +83,7 @@ public class BoxesCtrl {
 
 		System.out.println(boxesService.getBoxesById(boxId));
 		//添加你所想要添加的html
-	    	mv = new ModelAndView("box-order");
+	    	mv = new ModelAndView("locker-order");
 	    	mv.addObject("status","success");
 	    	mv.addObject("box",boxesService.getBoxesById(boxId));
 		return mv;
@@ -97,7 +97,7 @@ public class BoxesCtrl {
 
 			System.out.println(boxesService.getBoxesById(boxId));
 			//添加你所想要添加的html
-		    	mv = new ModelAndView("box-map");
+		    	mv = new ModelAndView("locker-map");
 		    	mv.addObject("status","success");
 		    	mv.addObject("box",boxesService.getBoxesById(boxId));
 			return mv;
@@ -111,7 +111,7 @@ public class BoxesCtrl {
 			System.out.println("loacation = "+location);
 			System.out.println(boxesService.getAllBoxesByloaction(location));
 			//添加你所想要添加的html
-		    	mv = new ModelAndView("box-list");
+		    	mv = new ModelAndView("locker-list");
 		    	mv.addObject("status","success");
 		    	mv.addObject("boxes",boxesService.getAllBoxesByloaction(location));
 			return mv;

@@ -54,7 +54,7 @@
         <h1>Sensor Locker</h1>
         <div class="btn-group">
           <button class="btn btn-outline-light" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person"></i> <span id="userDropdownText">${user.email}</span>
+           <i class="bi bi-person"></i> <span th:text="${user.email}" id="userDropdownText">${user.email}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#" id="profileLink" data-user-name="${user.name}" data-user-role="${user.role}">Profile</a></li>
@@ -75,17 +75,17 @@
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#locker-map-all" onclick="loadContent('locker-map-all.html')">
+              <a class="nav-link active" href="#locker-map-all" onclick="loadContent('locker-map-all')">
                 Locker Map
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#locker-list-all" onclick="loadContent('locker-list-all.html')">
+              <a class="nav-link active" href="#locker-list-all" onclick="loadContent('locker-list-all')">
                 Locker List
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#order-list" onclick="loadContent('order-list.html')">
+              <a class="nav-link active" href="#order-list" th:onclick="'loadContent(\'' + |appointment/user/${user.Id}| + '\')'">
                 Locker Order
               </a>
             </li>
@@ -96,7 +96,7 @@
       <!-- Main Content -->
       <main id="main-content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="container-fluid">
-          <iframe id="content-iframe" src="locker-map-all.html" frameborder="0" width="100%" height="700"></iframe>
+          <iframe id="content-iframe" src="locker-map-all" frameborder="0" width="100%" height="700"></iframe>
         </div>
       </main>
     </div>

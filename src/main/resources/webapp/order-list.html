@@ -53,8 +53,8 @@
       </thead>
       <tbody>
         <!-- Thymeleaf loop to generate order box list -->
-       <tr th:each="orderBox : ${orderBoxList}">
-          <td th:text="${orderBox.name}"></td>
+       <tr th:each="orderBox : ${sellerList}">
+          <td th:text="${orderBox.boxName}"></td>
           <td th:text="${orderBox.location}"></td>
           <td th:text="${orderBox.supplierEmail}"></td>
           <td th:text="${orderBox.recipientEmail}"></td>
@@ -87,8 +87,8 @@
       </thead>
       <tbody>
         <!-- Thymeleaf loop to generate order box list -->
-       <tr th:each="orderBox : ${orderBoxList}">
-          <td th:text="${orderBox.name}"></td>
+       <tr th:each="orderBox : ${buyerList}">
+          <td th:text="${orderBox.boxName}"></td>
           <td th:text="${orderBox.location}"></td>
           <td th:text="${orderBox.supplierEmail}"></td>
           <td th:text="${orderBox.recipientEmail}"></td>
