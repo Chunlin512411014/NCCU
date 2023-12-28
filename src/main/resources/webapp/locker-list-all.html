@@ -47,7 +47,7 @@
           <td>
           <!--   <span class="badge" th:classappend="${box.status == 'In-use' ? 'inuse-status' : ''} ${box.status == 'Pending' ? 'pending-status' : ''} ${box.status == 'IDLE' ? 'completed-status' : 'default-status'}" th:text="${box.status}"></span> -->
           	<span class="badge"
-							th:class="|${box.status == 'A' ? 'inuse-status' : ''} ${box.status == 'UA' ? 'pending-status' : ''} ${box.status == 'A' ? 'completed-status' : 'default-status'}|"
+							th:class="|${box.status == '使用中' ? 'inuse-status' : ''} ${box.status == 'UA' ? 'pending-status' : ''} ${box.status == 'A' ? 'completed-status' : 'default-status'}|"
 							th:text="${box.status}"></span> 
             <!-- 如果 box 狀態為 'Active'，則顯示 user id -->
      <!--        <span th:if="${box.status == 'UA' and box.userId != null}" th:text="' (User ID: ' + ${box.userId} + ')'"></span> -->
