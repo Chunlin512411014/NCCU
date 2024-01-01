@@ -33,20 +33,21 @@
 
   <div class="row">
     <div class="col">
-      <h2 class="mb-4">Order Box List</h2>
+      <h2 class="mb-4">Order Locker List</h2>
     </div>
   </div>
 
   <!-- Upper Div -->
   <div th:fragment="upper-div" class="mx-auto">
-    <h3 class="text-center">置貨 BOX 清單</h3>
+    <h3 class="text-center">置貨 Locker 清單</h3>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">BOX 名稱</th>
-          <th scope="col">BOX 位置</th>
+          <th scope="col">Locker 名稱</th>
+          <th scope="col">Locker 位置</th>
           <th scope="col">置貨方 Email</th>
           <th scope="col">取貨方 Email</th>
+          <th scope="col">到期時間</th> 
           <th scope="col">取貨狀態</th>
           <th scope="col">是否完成取貨</th>
         </tr>
@@ -58,6 +59,7 @@
           <td th:text="${orderBox.location}"></td>
           <td th:text="${orderBox.supplierEmail}"></td>
           <td th:text="${orderBox.recipientEmail}"></td>
+          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
           <td th:text="${orderBox.status}"></td>
           <td>
             <button type="button" class="btn btn-primary" onclick="confirmActionSend('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
@@ -73,14 +75,15 @@
 
   <!-- Lower Div -->
   <div th:fragment="lower-div" class="mx-auto">
-    <h3 class="text-center">取貨 BOX 清單</h3>
+    <h3 class="text-center">取貨 Locker 清單</h3>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">BOX 名稱</th>
-          <th scope="col">BOX 位置</th>
+          <th scope="col">Locker 名稱</th>
+          <th scope="col">Locker 位置</th>
           <th scope="col">置貨方 Email</th>
           <th scope="col">取貨方 Email</th>
+          <th scope="col">到期時間</th> 
           <th scope="col">取貨狀態</th>
           <th scope="col">是否完成取貨</th>
         </tr>
@@ -92,6 +95,7 @@
           <td th:text="${orderBox.location}"></td>
           <td th:text="${orderBox.supplierEmail}"></td>
           <td th:text="${orderBox.recipientEmail}"></td>
+          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
           <td th:text="${orderBox.status}"></td>
           <td>
             <button type="button" class="btn btn-primary btn-custom" onclick="confirmActionReceiver('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
