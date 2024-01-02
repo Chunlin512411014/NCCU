@@ -3,7 +3,10 @@ package rfidlocker.service;
 import java.util.List;
 
 import rfidlocker.entity.Boxes;
-
+/*
+ * Boxes Service interface
+ * 用於商業邏輯應用
+ * */
 public interface BoxesService {
 	
 	List<Boxes> getAllBoxes();

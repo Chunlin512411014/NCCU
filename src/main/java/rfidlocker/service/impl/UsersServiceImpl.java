@@ -7,9 +7,17 @@ import rfidlocker.entity.Users;
 import rfidlocker.repository.UsersJpaRepository;
 import rfidlocker.service.UsersService;
 @Service
+/*
+ * Users Service interface 實作
+ * 撰寫商業邏輯
+ * */
 public class UsersServiceImpl implements UsersService{
 	@Autowired
 	UsersJpaRepository usersJpaRepository;
+	
+	/*
+	 * 利用Email 來取得使用者詳細資訊
+	 * */
 	@Override
 	public Users getUserByEmail(String email) {
 		Users users = usersJpaRepository.findByEmail(email).orElse(null);
