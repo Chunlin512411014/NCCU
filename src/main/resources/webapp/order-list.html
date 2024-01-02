@@ -1,114 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order List</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <style>
-    .hidden { display: none; }
-    .btn-primary {
-      background-color: #343a40;
-      border-color: #343a40; 
-      color: #FFD306; 
-    }
-    
-    h2 {
-      font-family: 'Roboto', sans-serif; 
-      font-weight: 700; 
-      color: #FFD306; 
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order List</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<style>
+.hidden {
+	display: none;
+}
 
-    h3 {
-      font-family: 'Roboto', sans-serif; 
-      font-weight: 700; 
-      color: #FFD306; 
-    }
-  </style>
+.btn-primary {
+	background-color: #343a40;
+	border-color: #343a40;
+	color: #FFD306;
+}
+
+h2 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	color: #FFD306;
+}
+
+h3 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	color: #FFD306;
+}
+</style>
 </head>
 <body>
 
-<div class="container mt-5">
+	<div class="container mt-5">
 
-  <div class="row">
-    <div class="col">
-      <h2 class="mb-4">Order Locker List</h2>
-    </div>
-  </div>
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-4">Order Locker List</h2>
+			</div>
+		</div>
 
-  <!-- Upper Div -->
-  <div th:fragment="upper-div" class="mx-auto">
-    <h3 class="text-center">置貨 Locker 清單</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Locker 名稱</th>
-          <th scope="col">Locker 位置</th>
-          <th scope="col">置貨方 Email</th>
-          <th scope="col">取貨方 Email</th>
-          <th scope="col">到期時間</th> 
-          <th scope="col">取貨狀態</th>
-          <th scope="col">是否完成取貨</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Thymeleaf loop to generate order box list -->
-       <tr th:each="orderBox : ${sellerList}">
-          <td th:text="${orderBox.boxName}"></td>
-          <td th:text="${orderBox.location}"></td>
-          <td th:text="${orderBox.supplierEmail}"></td>
-          <td th:text="${orderBox.recipientEmail}"></td>
-          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td th:text="${orderBox.status}"></td>
-          <td>
-            <button type="button" class="btn btn-primary" onclick="confirmActionSend('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+		<!-- Upper Div -->
+		<div th:fragment="upper-div" class="mx-auto">
+			<h3 class="text-center">置貨 Locker 清單</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Locker 名稱</th>
+						<th scope="col">Locker 位置</th>
+						<th scope="col">置貨方 Email</th>
+						<th scope="col">取貨方 Email</th>
+						<th scope="col">到期時間</th>
+						<th scope="col">取貨狀態</th>
+						<th scope="col">是否完成取貨</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Thymeleaf loop to generate order box list -->
+					<tr th:each="orderBox : ${sellerList}">
+						<td th:text="${orderBox.boxName}"></td>
+						<td th:text="${orderBox.location}"></td>
+						<td th:text="${orderBox.supplierEmail}"></td>
+						<td th:text="${orderBox.recipientEmail}"></td>
+						<!-- <td th:text="${orderBox.expiryTime}"></td> -->
+						<td
+							th:utext="${#temporals.format(orderBox.expiryTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
-  <div class="col-md-12">
-    <hr>
-  </div>
+						<!--    <td th:text="${#dates.format(orderBox.expiryTime, 'yyyy-MM-dd HH:mm:ss')}"></td> -->
+						<td th:text="${orderBox.status}"></td>
+						<td>
+							<!-- <button type="button" class="btn btn-primary"
+								onclick="confirmActionSend('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
+				 -->
+				 <button type="button" class="btn btn-primary btn-custom"
+								th:onclick="'confirmActionReceiver(\'' + ${orderBox.appointmentId} + '\')'">取貨完成</button>		
+				 </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-  <!-- Lower Div -->
-  <div th:fragment="lower-div" class="mx-auto">
-    <h3 class="text-center">取貨 Locker 清單</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Locker 名稱</th>
-          <th scope="col">Locker 位置</th>
-          <th scope="col">置貨方 Email</th>
-          <th scope="col">取貨方 Email</th>
-          <th scope="col">到期時間</th> 
-          <th scope="col">取貨狀態</th>
-          <th scope="col">是否完成取貨</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Thymeleaf loop to generate order box list -->
-       <tr th:each="orderBox : ${buyerList}">
-          <td th:text="${orderBox.boxName}"></td>
-          <td th:text="${orderBox.location}"></td>
-          <td th:text="${orderBox.supplierEmail}"></td>
-          <td th:text="${orderBox.recipientEmail}"></td>
-          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td th:text="${orderBox.status}"></td>
-          <td>
-            <button type="button" class="btn btn-primary btn-custom" onclick="confirmActionReceiver('${orderBox.id}', '${orderBox.name}', '${orderBox.location}', '${orderBox.status}', '${orderBox.supplierEmail}', '${orderBox.recipientEmail}')">取貨完成</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+		<div class="col-md-12">
+			<hr>
+		</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Lower Div -->
+		<div th:fragment="lower-div" class="mx-auto">
+			<h3 class="text-center">取貨 Locker 清單</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Locker 名稱</th>
+						<th scope="col">Locker 位置</th>
+						<th scope="col">置貨方 Email</th>
+						<th scope="col">取貨方 Email</th>
+						<th scope="col">到期時間</th>
+						<th scope="col">取貨狀態</th>
+						<th scope="col">是否完成取貨</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Thymeleaf loop to generate order box list -->
+					<tr th:each="orderBox : ${buyerList}">
+						<td th:text="${orderBox.boxName}"></td>
+						<td th:text="${orderBox.location}"></td>
+						<td th:text="${orderBox.supplierEmail}"></td>
+						<td th:text="${orderBox.recipientEmail}"></td>
+						<td
+							th:utext="${#temporals.format(orderBox.expiryTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${orderBox.status}"></td>
+						<td>
+							<button type="button" class="btn btn-primary btn-custom"
+								th:onclick="'confirmActionReceiver(\'' + ${orderBox.appointmentId} + '\')'">取貨完成</button>
 
-<script th:inline="javascript">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script th:inline="javascript">
   function confirmActionSend(id, name, location, status, supplierEmail, recipientEmail) {
     if (confirm('確認要取貨嗎？')) {
       const requestData = {
@@ -139,35 +157,13 @@
     }
   }
 
-  function confirmActionReceiver(id, name, location, status, supplierEmail, recipientEmail) {
-    if (confirm('確認要取貨嗎？')) {
-      const requestData = {
-        id: id,
-        name: name,
-        location: location,
-        status: status,
-        supplierEmail: supplierEmail,
-        recipientEmail: recipientEmail
-      };
+  function confirmActionReceiver(id) {
+	  if (confirm('確認要取貨嗎？')) {
+		  alert('取貨成功！');
+		  window.location.href = '/api/appointment/' + id + '/complete';
+	  }
+	}
 
-      fetch('/your-backend-endpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        alert('取貨成功！');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('無法確認取貨資訊！');
-      });
-    }
-  }
 </script>
 </body>
 </html>

@@ -21,5 +21,6 @@ public class OrderDao {
 	String supplierEmail;
 	//買家
 	String recipientEmail;
+	LocalDateTime expiryTime;
 	String status;
 }

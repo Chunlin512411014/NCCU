@@ -109,11 +109,13 @@ public class AppointmentCtrl {
 	}
 
 	// 完成取貨
-	@PutMapping(value = "/api/appointment/{appointmentId}/complete")
+	@GetMapping(value = "/api/appointment/{appointmentId}/complete")
 	public ModelAndView afterOpenByAppointmentId(HttpServletRequest request, @PathVariable Integer appointmentId) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 		try {
+			System.out.println("appointmentId = "+appointmentId);
+//			Integer appointmentIdInt = Integer.parseInt(appointmentId);
 			appointmentService.modifyAppointmentStatusByAppointment(appointmentId, request);
 		} catch (Exception e) {
 			log.info(e.getMessage());

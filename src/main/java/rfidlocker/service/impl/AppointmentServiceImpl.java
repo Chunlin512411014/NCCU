@@ -55,6 +55,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment = appointmentJpaRepository.save(appointment);
 			
 			boxes.setStatus("UA");
+			
 			boxesJpaRepository.save(boxes);
 			
 			return appointment;
@@ -84,6 +85,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			orderDao.setLocation(boxes.getLocation());
 			orderDao.setSupplierEmail(seller.getEmail());
 			orderDao.setRecipientEmail(buyer.getEmail());
+			orderDao.setExpiryTime(n.getExpiryTime());
 			System.out.println("取貨狀態碼 = "+n.getStatus());
 			switch(n.getStatus()) {
 			case 1 :
@@ -125,7 +127,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			orderDao.setLocation(boxes.getLocation());
 			orderDao.setSupplierEmail(seller.getEmail());
 			orderDao.setRecipientEmail(buyer.getEmail());
-			
+			orderDao.setExpiryTime(n.getExpiryTime());
 			switch(n.getStatus()) {
 			case 1 :
 				orderDao.setStatus("未到貨");
@@ -227,6 +229,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 //			appointment.setSellerEndTime(body.getSellerEndTime());
 //			appointment.setBuyerStartTime(body.getBuyerStartTime());
 //			appointment.setBuyerEndTime(body.getSellerEndTime());
+			appointment.setExpiryTime(expiryTime);
 			appointment = appointmentJpaRepository.save(appointment);
 			boxes.setReservationTime(reservationTime);
 			boxes.setExpiryTime(expiryTime);

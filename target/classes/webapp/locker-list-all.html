@@ -18,6 +18,16 @@
       font-weight: 700; 
       color: #FFD306; 
     }
+    
+    .idle-status {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .inuse-status {
+      background-color: #ffc107;
+      color: #000;
+    }
   </style>
 </head>
 <body>
@@ -31,7 +41,7 @@
           <th scope="col">名稱</th>
           <th scope="col">狀態</th>
           <th scope="col">位置</th>
-          <th scope="col">建立時間</th>
+   <!--        <th scope="col">建立時間</th> -->
           <th scope="col">到期時間</th>
         </tr>
       </thead>
@@ -58,8 +68,8 @@
             <button class="btn btn-link" type="button" th:text="${box.location}"></button>
             </a>
           </td>
-         <td th:text="${#dates.format(box.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+     <!--     <td th:text="${#dates.format(box.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> -->
+          <td th:utext="${#temporals.format(box.expiryTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
       </tbody>
     </table>

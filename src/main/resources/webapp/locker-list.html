@@ -70,7 +70,7 @@
             </a>
           </td>
           <!-- <td th:text="${#dates.format(box.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> -->
-          <td th:text="${#dates.format(box.useTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+         <td th:utext="${#temporals.format(box.expiryTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
 </div>
 

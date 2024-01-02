@@ -31,6 +31,8 @@ public class Appointment {
 	LocalDateTime buyerEndTime;
 	LocalDateTime sellerStartTime;
 	LocalDateTime sellerEndTime;
+	LocalDateTime expiryTime;
+	
 	
 
 }
