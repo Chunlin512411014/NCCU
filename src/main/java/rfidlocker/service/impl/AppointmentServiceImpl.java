@@ -93,6 +93,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 				orderDao.setStatus("已到貨");
 				break;
 			case 3 :
+				orderDao.setStatus("已取貨");
+				break;
+			case 4 :
 				orderDao.setStatus("完成");
 				break;
 			}
@@ -131,6 +134,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 				orderDao.setStatus("已到貨");
 				break;
 			case 3 :
+				orderDao.setStatus("已取貨");
+				break;
+			case 4 :
 				orderDao.setStatus("完成");
 				break;
 			}
@@ -233,6 +239,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	@Override
+	public
+	Appointment modifyAppointmentStatusByAppointment(Integer appointmentId, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		Appointment appointment = appointmentJpaRepository.findById(appointmentId).orElseThrow(() -> new IllegalStateException("此約會不存在"));
+		if(appointment.getStatus()!=3) {
+			throw  new IllegalStateException("此訂單還未取貨");
+		}else {
+			appointment.setStatus(4);
+			appointmentJpaRepository.save(appointment);
+		}
+		
+		return appointment;
 	}
 
 }

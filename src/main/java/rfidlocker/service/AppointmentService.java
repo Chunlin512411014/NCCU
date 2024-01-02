@@ -21,4 +21,5 @@ public interface AppointmentService {
 	Appointment findById(Integer appointmentId);
 	Appointment delByAppointmentId(Integer appointmentId , HttpServletRequest request);
 	Appointment afterOpenByAppointmentId(Integer appointmentId , HttpServletRequest request , Integer operationCode);
+	Appointment modifyAppointmentStatusByAppointment(Integer appointmentId , HttpServletRequest request);
 }

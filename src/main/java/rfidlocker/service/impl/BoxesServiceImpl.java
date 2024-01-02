@@ -32,7 +32,15 @@ public class BoxesServiceImpl implements BoxesService {
 	public List<Boxes> getAllBoxes() {
 
 		List<Boxes> boxesList = boxesJpaRepository.findAll();
-
+		
+		boxesList.forEach(n->{
+			if("A".equals(n.getStatus()) ) {
+				n.setStatus("可使用");
+			}else if("UA".equals(n.getStatus())){
+				n.setStatus("使用中");
+			}
+			
+		});
 		return boxesList;
 	}
 
@@ -115,6 +123,15 @@ public class BoxesServiceImpl implements BoxesService {
 		// TODO Auto-generated method stub
 		
 		List<Boxes> boxesList = boxesJpaRepository.findAllByLocation(location);
+		boxesList.forEach(n->{
+			if("A".equals(n.getStatus()) ) {
+				n.setStatus("可使用");
+			}else if("UA".equals(n.getStatus())){
+				n.setStatus("使用中");
+			}
+			
+		});
+		
 		return boxesList;
 	}
 

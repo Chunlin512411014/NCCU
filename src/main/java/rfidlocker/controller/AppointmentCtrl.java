@@ -27,37 +27,38 @@ import rfidlocker.service.impl.BoxesServiceImpl;
 @Slf4j
 /*
  * 訂單controller
- * */
+ */
 public class AppointmentCtrl {
-	//注入 AppointmentService 介面
+	// 注入 AppointmentService 介面
 	@Autowired
 	AppointmentService appointmentService;
 
 	// 新增約會
 	@PostMapping(value = "/api/appointment")
-	public ModelAndView addAppointment(HttpServletRequest request , 
-			 @RequestParam(name = "boxId", required = true)  Integer boxId,
-			@RequestParam("reservationTime")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime reservationTime ,
-			@RequestParam("expiryTime")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime expiryTime ,
+	public ModelAndView addAppointment(HttpServletRequest request,
+			@RequestParam(name = "boxId", required = true) Integer boxId,
+			@RequestParam("reservationTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime reservationTime,
+			@RequestParam("expiryTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime expiryTime,
 			@RequestParam("receiverEmail") String receiverEmail) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 		try {
-			System.out.println("boxId = " +boxId);
+			System.out.println("boxId = " + boxId);
 			System.out.println(request.getSession().getAttribute("userId"));
 			System.out.println("reservationTime = " + reservationTime);
-			System.out.println(appointmentService.addAppointment(request,boxId,reservationTime,expiryTime,receiverEmail));
+			System.out.println(
+					appointmentService.addAppointment(request, boxId, reservationTime, expiryTime, receiverEmail));
 			System.out.println("新增約會成功 !");
-			
-			Integer userId = (Integer)session.getAttribute("userId");
+
+			Integer userId = (Integer) session.getAttribute("userId");
 			System.out.println("buyer list");
 			System.out.println(appointmentService.findAllByBuyerId(userId));
 			System.out.println("seller list");
 			System.out.println(appointmentService.findAllBySellerId(userId));
-		    	mv = new ModelAndView("order-list");
-		    	mv.addObject("status","success");
-		    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
-		    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
+			mv = new ModelAndView("order-list");
+			mv.addObject("status", "success");
+			mv.addObject("buyerList", appointmentService.findAllByBuyerId(userId));
+			mv.addObject("sellerList", appointmentService.findAllBySellerId(userId));
 		} catch (RuntimeException e) {
 			System.out.println(e);
 		}
@@ -74,10 +75,10 @@ public class AppointmentCtrl {
 		System.out.println(appointmentService.findAllByBuyerId(userId));
 		System.out.println("seller list");
 		System.out.println(appointmentService.findAllBySellerId(userId));
-	    	mv = new ModelAndView("order-list");
-	    	mv.addObject("status","success");
-	    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
-	    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
+		mv = new ModelAndView("order-list");
+		mv.addObject("status", "success");
+		mv.addObject("buyerList", appointmentService.findAllByBuyerId(userId));
+		mv.addObject("sellerList", appointmentService.findAllBySellerId(userId));
 		return mv;
 	}
 
@@ -107,16 +108,26 @@ public class AppointmentCtrl {
 		return mv;
 	}
 
-	// 取貨後動作
-	@PutMapping(value = "/api/appointment/{appointmentId}/{operationCode}")
-	public ModelAndView afterOpenByAppointmentId(HttpServletRequest request, @PathVariable Integer appointmentId ,@PathVariable Integer operationCode) {
+	// 完成取貨
+	@PutMapping(value = "/api/appointment/{appointmentId}/complete")
+	public ModelAndView afterOpenByAppointmentId(HttpServletRequest request, @PathVariable Integer appointmentId) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
-//		System.out.println(appointmentService.delByAppointmentId(appointmentId, request , operationCode));
-//				    	mv = new ModelAndView("login");
-//				    	mv.addObject("status","success");
-//				    	mv.addObject("buyerList",appointmentService.findAllByBuyerId(userId));
-//				    	mv.addObject("sellerList",appointmentService.findAllBySellerId(userId));
+		try {
+			appointmentService.modifyAppointmentStatusByAppointment(appointmentId, request);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+		}
+		Integer userId = (Integer)session.getAttribute("userId");
+		System.out.println("buyer list");
+		System.out.println(appointmentService.findAllByBuyerId(userId));
+		System.out.println("seller list");
+		System.out.println(appointmentService.findAllBySellerId(userId));
+		mv = new ModelAndView("order-list");
+		mv.addObject("status", "success");
+		mv.addObject("buyerList", appointmentService.findAllByBuyerId(userId));
+		mv.addObject("sellerList", appointmentService.findAllBySellerId(userId));
 		return mv;
 	}
 
