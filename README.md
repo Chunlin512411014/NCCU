@@ -101,7 +101,25 @@ docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
    - OpenJDK
 
 ---
-
+啟動專案
+ -  安裝 Maven 3.9.6
+ -  安裝 OpenJDK 17.0.9
+ -  Mac 開啟終端機 or Window 開啟 windows PowerShell
+ -  cd 到放置src and bom.xml 資料夾
+ -  打包專案，產出 .jar檔（會在target資料夾內）產出檔名為 rfid-locker-0.0.1-SNAPSHOT.jar
+```sh
+mvn clean package -DskipTests
+```
+ - 啟動spring boot 專案
+ - 要帶入資料庫url 與 資料庫密碼 預設username = rfiduser
+```sh
+  java -DRFID_DB_URL='請填寫dburl' -DRFID_DB_PWD='請填寫db pwd' -jar ./target/rfid-locker-0.0.1-SNAPSHOT.jar
+```
+ - 在本機端啟動
+```sh
+  http://localhost:8080/api/login
+```
+---
 
 <!-- USAGE EXAMPLES -->
 ## Usage
