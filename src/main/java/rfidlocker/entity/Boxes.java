@@ -10,6 +10,11 @@ import lombok.Data;
 
 @Entity
 @Data
+/*
+ * Boxse model 
+ * 對應db欄位
+ * 
+ * */
 public class Boxes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	

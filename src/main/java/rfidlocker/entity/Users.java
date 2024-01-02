@@ -10,6 +10,9 @@ import lombok.Data;
 
 @Entity
 @Data
+/*
+ * 使用者model
+ * */
 public class Users {
 
 	@Id

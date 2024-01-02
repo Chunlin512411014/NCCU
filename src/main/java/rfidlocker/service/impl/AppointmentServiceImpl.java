@@ -18,7 +18,10 @@ import rfidlocker.repository.AppointmentJpaRepository;
 import rfidlocker.repository.BoxesJpaRepository;
 import rfidlocker.repository.UsersJpaRepository;
 import rfidlocker.service.AppointmentService;
-
+/*
+ * Appointment Service interface 實作
+ * 撰寫商業邏輯
+ * */
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
@@ -28,6 +31,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	BoxesJpaRepository boxesJpaRepository;
 
+	//新增約會(訂單
 	@Override
 	public Appointment addAppointment(AppointmentDao body) {
 		try {
@@ -60,7 +64,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 
 	}
-
+	/*
+	 * 以賣家id為查詢條件 抓取訂單list
+	 * */
 	@Override
 	public List<OrderDao> findAllBySellerId(Integer userId) {
 		//我是賣家
@@ -96,7 +102,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		return orderDaoList;
 	}
-
+	/*
+	 * 以買家id為查詢條件 抓取訂單list
+	 * */
 	@Override
 	public List<OrderDao> findAllByBuyerId(Integer userId) {
 		List<OrderDao> orderDaoList = new ArrayList<>();
@@ -132,14 +140,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		return orderDaoList;
 	}
-
+	//查詢特定訂單
 	@Override
 	public Appointment findById(Integer appointmentId) {
 //		Users user  = usersJpaRepository.findById(userId).orElseThrow(()->new IllegalStateException("買家不存在"));
 		Appointment appointment = appointmentJpaRepository.findById(appointmentId).orElseThrow(() -> new IllegalStateException("此約會不存在"));
 		return appointment;
 	}
-
+	/*
+	 * 刪除訂單（更改狀態）為 cancel
+	 * */
 	@Override
 	public Appointment delByAppointmentId(Integer appointmentId ,HttpServletRequest request) {
 //		HttpSession session = request.getSession();
@@ -184,6 +194,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 	}
 
+	/*
+	 * 新增訂單
+	 * */
 	@Override
 	public Appointment addAppointment(HttpServletRequest request , Integer boxId, LocalDateTime reservationTime, LocalDateTime expiryTime,
 			String receiverEmail) {

@@ -9,6 +9,11 @@ import jakarta.persistence.Id;
 import lombok.Data;
 @Entity
 @Data
+/*
+ * 訂單Model 
+ * 對應db欄位
+ * 
+ * */
 public class Appointment {
 	
 	@Id
@@ -18,7 +23,7 @@ public class Appointment {
 	Integer buyerId;
 	Integer sellerId;
 	/*
-	 * status code 1:Booking ; 2:Booking open; 3:waiting ;4 buyer open; 5: complete or return; 99 cancel
+	 * status code 1:未到貨 2:已送達 3:已取貨 4:完成 or return; 99 cancel
 	 * 
 	 * */
 	Integer status;

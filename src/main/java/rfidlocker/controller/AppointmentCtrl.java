@@ -17,12 +17,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import rfidlocker.model.Appointment.AppointmentDao;
 import rfidlocker.service.AppointmentService;
+import rfidlocker.service.impl.BoxesServiceImpl;
 
 @CrossOrigin
 @Controller
+@Slf4j
+/*
+ * 訂單controller
+ * */
 public class AppointmentCtrl {
+	//注入 AppointmentService 介面
 	@Autowired
 	AppointmentService appointmentService;
 

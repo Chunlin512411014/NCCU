@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import rfidlocker.entity.Appointment;
 import rfidlocker.model.Appointment.AppointmentDao;
 import rfidlocker.model.Appointment.OrderDao;
-
+/*
+ * Appointment Service interface
+ * 用於商業邏輯應用
+ * */
 public interface AppointmentService {
 //	Appointment addAppointment(Integer boxId, String buyerEmail, Integer sellerId, LocalDateTime buyerStartTime,
 //			LocalDateTime buyerEndTime, LocalDateTime sellerStartTime, LocalDateTime sellerEndTime);

@@ -20,6 +20,7 @@ import rfidlocker.service.BoxesService;
 
 @CrossOrigin
 @Controller
+//登入 controller
 public class LoginCtrl {
 	
 	@Autowired 
@@ -57,7 +58,7 @@ public class LoginCtrl {
 	    }
 	    
 
-
+	 //使用這登入
 	    @RequestMapping(value = "/api/user-login", method = {RequestMethod.GET, RequestMethod.POST})
 	    public ModelAndView userLogin(HttpServletRequest request) {
 	    	ModelAndView mv ;
@@ -75,6 +76,7 @@ public class LoginCtrl {
 		    		mv.addObject("desc","帳號密碼錯誤");
 		    		return mv;
 	    	}else {
+	    		//將使用者資訊放入 session
 	    		session.setAttribute("userName", users.getName());    	
 	    		session.setAttribute("userId", users.getId());    	
 	    		session.setAttribute("email", users.getEmail());    	
@@ -90,6 +92,21 @@ public class LoginCtrl {
 	    		return mv;
     		}
 
+	    }
+	    
+		//登出頁面
+		 @GetMapping(value = "/api/logout")
+		    public ModelAndView logout(HttpServletRequest request) {
+		 
+		 HttpSession session = request.getSession(false);
+		 ModelAndView mv = null;
+	        if (session != null) {
+	            // 使Session失效
+	            session.invalidate();
+	        }
+	    	System.out.println("登出後轉導至登入頁面");
+	    	mv = new ModelAndView("login");
+			return mv;	
 	    }
 
 }

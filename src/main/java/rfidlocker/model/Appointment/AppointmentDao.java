@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 @Data
+/*
+ * 自行創建 model	
+ * 目前沒有用到
+ * */
 public class AppointmentDao {
 	//所預約的箱子id
 	Integer boxId;
