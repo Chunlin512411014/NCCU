@@ -61,7 +61,6 @@ public class RfidController {
 	 * rfid 辨識 parameter 1. cardNo 2.boxId
 	 * 判斷此卡是否有效
 	 */
-
 	@GetMapping(value = "/rfid/{cardNo}/{boxId}")
 	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, 
 			@PathVariable Integer boxId,
@@ -69,9 +68,11 @@ public class RfidController {
 		
 		try {
 		String access = rfidService.checkCardNOAndBoxId(cardNo, boxId);
+		//成功回傳 status code 200
 		return new ResponseEntity<>(access, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
+			//失敗回傳 status code 403
 			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
 		}
 
@@ -86,16 +87,12 @@ public class RfidController {
 			HttpServletRequest request) {
 		try {
 			boxesService.modifyBoxesDoorStatus(boxId, isLock);
-//			return new ResponseEntity<>(access, HttpStatus.OK);
-			System.out.println("isLock :" +isLock);
 		} catch (Exception e) {
-//			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
 			System.out.println();
 			e.printStackTrace();
 			log.info("boxes door status error");
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
-
 
 	}
 
