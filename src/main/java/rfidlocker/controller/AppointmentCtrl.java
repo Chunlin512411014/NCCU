@@ -43,26 +43,20 @@ public class AppointmentCtrl {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
 		try {
-			System.out.println("boxId = " + boxId);
-			System.out.println(request.getSession().getAttribute("userId"));
-			System.out.println("reservationTime = " + reservationTime);
-			System.out.println(
-					appointmentService.addAppointment(request, boxId, reservationTime, expiryTime, receiverEmail));
-			System.out.println("新增約會成功 !");
-
+			//新增 Appointment
+			appointmentService.addAppointment(request, boxId, reservationTime, expiryTime, receiverEmail);
+			//取得登入時放在session中的userId 
 			Integer userId = (Integer) session.getAttribute("userId");
-			System.out.println("buyer list");
-			System.out.println(appointmentService.findAllByBuyerId(userId));
-			System.out.println("seller list");
-			System.out.println(appointmentService.findAllBySellerId(userId));
+			//轉導到 order-list.html
 			mv = new ModelAndView("order-list");
+			//傳入要轉導的參數，以key value 的形式存放
 			mv.addObject("status", "success");
 			mv.addObject("buyerList", appointmentService.findAllByBuyerId(userId));
 			mv.addObject("sellerList", appointmentService.findAllBySellerId(userId));
 		} catch (RuntimeException e) {
 			System.out.println(e);
 		}
-
+		//轉導
 		return mv;
 	}
 
@@ -71,14 +65,14 @@ public class AppointmentCtrl {
 	public ModelAndView getAllAppointment(HttpServletRequest request, @PathVariable Integer userId) {
 		ModelAndView mv = null;
 		HttpSession session = request.getSession();
-		System.out.println("buyer list");
-		System.out.println(appointmentService.findAllByBuyerId(userId));
-		System.out.println("seller list");
-		System.out.println(appointmentService.findAllBySellerId(userId));
+//		System.out.println("buyer list");
+//		System.out.println(appointmentService.findAllByBuyerId(userId));
+//		System.out.println("seller list");
+//		System.out.println(appointmentService.findAllBySellerId(userId));
 		mv = new ModelAndView("order-list");
 		mv.addObject("status", "success");
 		mv.addObject("buyerList", appointmentService.findAllByBuyerId(userId));
-		mv.addObject("sellerList", appointmentService.findAllBySellerId(userId));
+		mv.addObject("sellerList", appointmentService.findAllBySellerId(userId)); 
 		return mv;
 	}
 
