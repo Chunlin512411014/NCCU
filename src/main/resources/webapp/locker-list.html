@@ -49,10 +49,14 @@
         <!-- 使用 thymeleaf 動態產出 box list -->
         <tr th:each="box : ${boxes}">
           <td>
-            <!-- 修改 box 名稱的連結 -->
-            <a th:href="@{'/api/Boxes/' + ${box.id}}"> 
-              <span th:text="${box.name}"></span>
-            </a>
+            <!-- 判斷 box.status，若為 'UA' 則不產生超連結 -->
+            <span th:unless="${box.status == 'UA'}">
+              <a th:href="@{'/api/Boxes/' + ${box.id}}"> 
+                <span th:text="${box.name}"></span>
+              </a>
+            </span>
+            <!-- 若為 'UA' 則直接顯示名稱 -->
+            <span th:if="${box.status == 'UA'}" th:text="${box.name}"></span>
           </td>
           <td>
             <span class="badge rounded"
