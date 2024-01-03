@@ -63,7 +63,8 @@ public class RfidController {
 	 */
 
 	@GetMapping(value = "/rfid/{cardNo}/{boxId}")
-	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, @PathVariable Integer boxId,
+	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, 
+			@PathVariable Integer boxId,
 			HttpServletRequest request) {
 		
 		try {
@@ -73,18 +74,15 @@ public class RfidController {
 			e.printStackTrace();
 			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
 		}
-		
-
-//		return null;
 
 	}
-	
 	/*
 	 * 門鎖感應器 現在是開或是關
 	 * 
 	 * */
 	@GetMapping(value = "/rfid/door/{boxId}/{isLock}")
-	public ResponseEntity<?> updateBoxesDoorStatus(@PathVariable Integer boxId, @PathVariable String isLock,
+	public ResponseEntity<?> updateBoxesDoorStatus(@PathVariable Integer boxId,
+			@PathVariable String isLock,
 			HttpServletRequest request) {
 		try {
 			boxesService.modifyBoxesDoorStatus(boxId, isLock);
