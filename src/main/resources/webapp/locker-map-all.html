@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 設定基本元素 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taiwan Map</title>
+    <!-- 引入 Leaflet 地圖樣式 -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
+        /* 設定地圖區域的高度 */
         #map {
             height: 600px;
         }
@@ -14,8 +17,10 @@
 <body>
     <div id="map"></div>
 
+    <!-- 引入 Leaflet JavaScript library -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+        // 定義台灣地圖上各地點的經緯度座標
         const taiwanMap = {
             taipei: { lat: 25.0478, lng: 121.5319 },
             hsinchu: { lat: 24.8015, lng: 120.971 },
@@ -32,9 +37,9 @@
             全家便利商店: {lat: 23.56086, lng: 120.47261},
             宿舍: {lat: 23.56226, lng: 120.47053}
         };
-
+        // 建立 Leaflet 地圖實例，設定初始顯示位置和縮放等級
         const map = L.map('map').setView([23.561596, 120.475562], 20);
-
+        // 加入 OpenStreetMap 地圖圖層
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -68,14 +73,14 @@
         //在地圖上標示宿舍
         addClickableMarker(taiwanMap.宿舍, '宿舍');
 
-
+        //在地圖上加入可點擊的標記和連結按鈕
         function addClickableMarker(coordinates, locationName) {
             const marker = L.marker(coordinates).addTo(map);
-
+             //建立連結按鈕
             const linkButton = document.createElement('a');
             linkButton.href = `/api/Boxes/location/${encodeURIComponent(locationName)}`;
             linkButton.innerHTML = `<button>${locationName} Locker 清單</button>`;
-
+            // 將連結按鈕綁定到標記上，並開啟彈出窗口
             marker.bindPopup(linkButton).openPopup();
         }
 
