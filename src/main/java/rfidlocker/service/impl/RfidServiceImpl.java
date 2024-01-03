@@ -39,8 +39,7 @@ public class RfidServiceImpl implements RfidService {
 		
 		//透過 spring boot orm jpa 查詢Appointment(order) 
 		Appointment appointment = appointmentJpaRepository.findByBoxIdAndStatusIn(boxId, statusList)
-				.orElseThrow(() -> new IllegalStateException("no appointment"));
-		
+				.orElseThrow(() -> new IllegalStateException("no appointment")); 
 		/*
 		 * 訂單狀態為 1 : 未到貨 （賣方可以開啟locker)
 		 * 訂單狀態為 2 : 已到貨  (買方可以開啟locker)
@@ -59,7 +58,6 @@ public class RfidServiceImpl implements RfidService {
 				throw new IllegalStateException("N");
 			}
 		}
-
 		return null;
 	}
 

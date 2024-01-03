@@ -24,6 +24,30 @@ public class RfidController {
 	@Autowired
 	RfidService rfidService;
 
+	/*
+	 * rfid 辨識 parameter 1. cardNo 2.boxId
+	 * 判斷此卡是否有效
+	 */
+	@GetMapping(value = "/rfid/{cardNo}/{boxId}")
+	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, 
+			@PathVariable Integer boxId,
+			HttpServletRequest request) {
+		
+		try {
+		String access = rfidService.checkCardNOAndBoxId(cardNo, boxId);
+		//成功回傳 status code 200
+		return new ResponseEntity<>(access, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//失敗回傳 status code 403
+			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN); 
+		}
+
+	}
+	
+	
+	
+	
 	final String pass_token = "12344444";
 	final String pass_cardNo = "3698607872";
 
@@ -57,26 +81,7 @@ public class RfidController {
 
 	}
 
-	/*
-	 * rfid 辨識 parameter 1. cardNo 2.boxId
-	 * 判斷此卡是否有效
-	 */
-	@GetMapping(value = "/rfid/{cardNo}/{boxId}")
-	public ResponseEntity<String> checkCardNoAndBoxId(@PathVariable String cardNo, 
-			@PathVariable Integer boxId,
-			HttpServletRequest request) {
-		
-		try {
-		String access = rfidService.checkCardNOAndBoxId(cardNo, boxId);
-		//成功回傳 status code 200
-		return new ResponseEntity<>(access, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			//失敗回傳 status code 403
-			return new ResponseEntity<>("N", HttpStatus.FORBIDDEN);
-		}
 
-	}
 	/*
 	 * 門鎖感應器 現在是開或是關
 	 * 
